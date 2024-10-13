@@ -1,0 +1,6 @@
+@DND5eAPI_HostAddress = http://localhost:5161
+
+GET {{DND5eAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
