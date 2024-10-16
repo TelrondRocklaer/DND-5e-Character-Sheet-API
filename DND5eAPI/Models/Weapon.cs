@@ -15,8 +15,11 @@ namespace DND5eAPI.Models
         public int MagicBonus { get; set; }
         public int WeaponTypeId { get; set; }
         public string EffectString { get; set; }
+        public int ConditionId { get; set; }
 
         //
+        [ForeignKey("ConditionId")]
+        public Condition Condition { get; set; }
         public WeaponType WeaponType { get; set; }
         public List<Trait> Traits { get; set; }
         public List<Spell> Spells { get; set; }

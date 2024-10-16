@@ -1,3 +1,7 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using DND5eAPI.Data;
+using DND5eAPI.Models;
 namespace DND5eAPI
 {
     public class Program
@@ -5,6 +9,8 @@ namespace DND5eAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ApiDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ApiDbContext") ?? throw new InvalidOperationException("Connection string 'ApiDbContext' not found.")));
 
             // Add services to the container.
 
@@ -14,8 +20,9 @@ namespace DND5eAPI
 
             // Configure the HTTP request pipeline.
 
-            app.UseAuthorization();
+            app.UseRouting();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

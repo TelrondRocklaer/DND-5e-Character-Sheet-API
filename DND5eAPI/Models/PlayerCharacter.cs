@@ -1,5 +1,8 @@
-﻿namespace DND5eAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DND5eAPI.Models
 {
+
     public class Attributes()
     {
         public class Attribute(string name, List<string> skills)
@@ -98,6 +101,8 @@
         public bool IsShieldEquipped { get; set; }
         public Attributes Attributes { get; set; }
         public Resistances Resistances { get; set; }
+        public bool HasAdvantageOnConcentrationSavingThrows { get; set; }
+        public bool HasDisadvantageOnConcentrationSavingThrows { get; set; }
 
         public int ProficiencyBonus
         {
@@ -115,6 +120,7 @@
             }
         }
 
+        //
         public Race Race { get; set; }
         public Class Class { get; set; }
         public Background Background { get; set; }
@@ -125,5 +131,6 @@
         public List<Armor> EquipedArmor { get; set; }
         public List<Weapon> EquipedWeapons { get; set; }
         public List<Spell> Spells { get; set; }
+        public List<Condition> Conditions { get; set; }
     }
 }

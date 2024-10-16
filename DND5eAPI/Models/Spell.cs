@@ -12,6 +12,7 @@ namespace DND5eAPI.Models
         public string IndexName { get; set; }
         public string Description { get; set; }
         public string EffectString { get; set; }
+        public int ConditionId { get; set; }
         public string SpellSlotLevel { get; set; }
         public string UpcastEffect { get; set; }
         public string Range { get; set; }
@@ -22,12 +23,15 @@ namespace DND5eAPI.Models
         public string Duration { get; set; }
         public string CastingTime { get; set; }
         public bool IsRitual { get; set; }
-        public bool Concentration { get; set; }
+        public bool Concentration { get; set; }    
+        public bool IsRecurring { get; set; } // Do you need to make saving throws every round?
         public string School { get; set; }
-        
+
         //
-        List<Class> Classes { get; set; }
-        List<Weapon> Weapons { get; set; }
-        List<Armor> Armors { get; set; }
+        [ForeignKey("ConditionId")]
+        public Condition Condition { get; set; }
+        public List<Class> Classes { get; set; }
+        public List<Weapon> Weapons { get; set; }
+        public List<Armor> Armors { get; set; }
     }
 }
