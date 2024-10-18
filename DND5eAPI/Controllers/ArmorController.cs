@@ -16,28 +16,28 @@ namespace DND5eAPI.Controllers
             _context = context;
         }
 
-        // GET: api/armor
+        // GET: api/Armor
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Armor>>> GetArmor()
         {
-            var res = await _context.Armor.Include(a => a.ArmorType).ToListAsync();
-            return res != null ? Ok(res) : NotFound();
+            var res = await _context.Armor.ToListAsync();
+            return res != null ? Ok(res) : NotFound("No armor");
         }
 
-        // GET: api/armor/5
+        // GET: api/Armor/5
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Armor>> GetArmorById(int id)
         {
             var armor = await _context.Armor.FindAsync(id);
-            return armor != null ? Ok(armor) : NotFound();
+            return armor != null ? Ok(armor) : NotFound("Armor with provided id was not found");
         }
 
-        // GET: api/armor/adamantine-armor
+        // GET: api/Armor/adamantine-armor
         [HttpGet("{indexName}")]
         public async Task<ActionResult<Armor>> GetArmorByName(string indexName)
         {
             var armor = await _context.Armor.FirstOrDefaultAsync(a => a.IndexName == indexName);
-            return armor != null ? Ok(armor) : NotFound();
+            return armor != null ? Ok(armor) : NotFound("Armor with provided name was not found");
         }
     }
 }

@@ -16,6 +16,7 @@ namespace DND5eAPI.Models
         public int WeaponTypeId { get; set; }
         public string EffectString { get; set; }
         public int ConditionId { get; set; }
+        public bool AttunementRequired { get; set; }
 
         //
         [ForeignKey("ConditionId")]

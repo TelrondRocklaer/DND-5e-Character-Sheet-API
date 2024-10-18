@@ -11,9 +11,10 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string IndexName { get; set; }
         public string Description { get; set; }
-        public string ArmorClass { get; set; }
+        public int BaseArmorClass { get; set; }
+        public string Resistances { get; set; }
+        public string Effects { get; set; }
         public int ArmorTypeId { get; set; }
-        public string EffectString { get; set; }
 
         //
         [ForeignKey("ArmorTypeId")]

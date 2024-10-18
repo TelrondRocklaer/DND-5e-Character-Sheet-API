@@ -18,5 +18,6 @@ namespace DND5eAPI.Models
         //
         [ForeignKey("EquipmentCategoryId")]
         public EquipmentCategory EquipmentCategory { get; set; }
+        public List<Background> Backgrounds { get; set; }
     }
 }

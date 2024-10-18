@@ -14,6 +14,7 @@ namespace DND5eAPI.Models
         public int StartingGold { get; set; }
 
         //
+        public List<Equipment> Equipment { get; set; }
         public List<Tool> ToolProficiencies { get; set; }
         public List<Language> Languages { get; set; }
         public List<Feat> Feats { get; set; }

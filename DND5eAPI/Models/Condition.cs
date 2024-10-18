@@ -10,7 +10,7 @@ namespace DND5eAPI.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string EffectString { get; set; }
+        public string Effects { get; set; }
 
         //
         public List<Spell> Spells { get; set; }

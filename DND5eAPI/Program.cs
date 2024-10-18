@@ -27,12 +27,6 @@ namespace DND5eAPI
             app.MapControllers();
 
             app.Run();
-
-            //public int Modifier { get; set; }
-            //public bool AdvantageOnSavingThrows { get; set; }
-            //public bool AdvantageOnAbilityChecks { get; set; }
-            //public bool DisadvantageOnSavingThrows { get; set; }
-            //public bool DisadvantageOnAbilityChecks { get; set; }
         }
     }
 }

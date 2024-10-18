@@ -12,6 +12,8 @@ namespace DND5eAPI.Models
         public string PrimaryAbility { get; set; }
         public string HitDie { get; set; }
         public string SavingThrowProficiencies { get; set; }
+        public string Resistances { get; set; }
+        public int NumberOfSkillsToChoose { get; set; }
         public string SkillProficiencyOptions { get; set; }
         public int StartingGold { get; set; }
 
