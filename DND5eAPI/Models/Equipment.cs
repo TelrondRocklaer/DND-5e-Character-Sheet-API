@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Structures.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -14,10 +16,12 @@ namespace DND5eAPI.Models
         public int Weight { get; set; }
         public string Description { get; set; }
         public int EquipmentCategoryId { get; set; }
+        public ICollection<Effect>? Effects { get; set; }
 
         //
         [ForeignKey("EquipmentCategoryId")]
         public EquipmentCategory EquipmentCategory { get; set; }
+        [JsonIgnore]
         public List<Background> Backgrounds { get; set; }
     }
 }

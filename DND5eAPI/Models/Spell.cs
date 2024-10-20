@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Structures.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -11,7 +13,7 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string IndexName { get; set; }
         public string Description { get; set; }
-        public string EffectString { get; set; }
+        public ICollection<Effect> Effects { get; set; }
         public int ConditionId { get; set; }
         public string SpellSlotLevel { get; set; }
         public string UpcastEffect { get; set; }
@@ -30,8 +32,10 @@ namespace DND5eAPI.Models
         //
         [ForeignKey("ConditionId")]
         public Condition Condition { get; set; }
-        public List<Class> Classes { get; set; }
-        public List<Weapon> Weapons { get; set; }
-        public List<Armor> Armors { get; set; }
+        public ICollection<Class> Classes { get; set; }
+        [JsonIgnore]
+        public ICollection<Weapon> Weapons { get; set; }
+        [JsonIgnore]
+        public ICollection<Armor> Armors { get; set; }
     }
 }

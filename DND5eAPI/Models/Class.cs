@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -11,17 +12,18 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string PrimaryAbility { get; set; }
         public string HitDie { get; set; }
-        public string SavingThrowProficiencies { get; set; }
-        public string Resistances { get; set; }
+        //public ICollection<Effect> Effects { get; set; }
         public int NumberOfSkillsToChoose { get; set; }
-        public string SkillProficiencyOptions { get; set; }
+        public ICollection<string> SkillProficiencyOptions { get; set; }
         public int StartingGold { get; set; }
 
         //
-        public List<ArmorType> ArmorProficiencies { get; set; }
-        public List<WeaponType> WeaponProficiencies { get; set; }
-        public List<Tool> ToolProficiencies { get; set; }
-        public List<Trait> Traits { get; set; }
-        public List<Spell> Spells { get; set; }
+        public ICollection<ArmorType> ArmorProficiencies { get; set; }
+        public ICollection<WeaponType> WeaponProficiencies { get; set; }
+        public ICollection<Tool> ToolProficiencies { get; set; }
+        [JsonIgnore]
+        public ICollection<Trait> Traits { get; set; }
+        [JsonIgnore]
+        public ICollection<Spell> Spells { get; set; }
     }
 }

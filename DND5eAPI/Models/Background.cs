@@ -10,14 +10,14 @@ namespace DND5eAPI.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string SkillProficiencies { get; set; }
-        public int StartingGold { get; set; }
+        public ICollection<string> SkillProficiencies { get; set; }
+        public uint StartingGold { get; set; }
 
         //
-        public List<Equipment> Equipment { get; set; }
-        public List<Tool> ToolProficiencies { get; set; }
-        public List<Language> Languages { get; set; }
-        public List<Feat> Feats { get; set; }
-        public List<Trait> Traits { get; set; }
+        public ICollection<Equipment> Equipment { get; set; }
+        public ICollection<Tool> ToolProficiencies { get; set; }
+        public ICollection<Language> Languages { get; set; }
+        public ICollection<Feat> Feats { get; set; }
+        public ICollection<Trait> Traits { get; set; }
     }
 }

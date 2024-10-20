@@ -1,5 +1,8 @@
-﻿namespace DND5eAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DND5eAPI.Models.Structures
 {
+    [NotMapped]
     public class CharacterData
     {
         public class Attributes()
@@ -18,8 +21,8 @@
                 {
                     public string Name { get; set; } = name;
                     public bool IsProficient { get; set; } = false;
-                    public bool HasAdvantageOnSkillChecks { get; set; } = false;
-                    public bool HasDisadvantageOnSkillChecks { get; set; } = false;
+                    public bool HasAdvantageOnChecks { get; set; } = false;
+                    public bool HasDisadvantageOnChecks { get; set; } = false;
                 }
                 public int Modifier => (Value - 10) / 2;
                 public Skill this[string name] => Skills.FirstOrDefault(skill => skill.Name == name) ?? throw new ArgumentException($"Invalid skill name: {name}");

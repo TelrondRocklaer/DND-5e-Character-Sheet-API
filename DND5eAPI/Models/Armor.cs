@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Structures.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DND5eAPI.Models
@@ -12,14 +13,13 @@ namespace DND5eAPI.Models
         public string IndexName { get; set; }
         public string Description { get; set; }
         public int BaseArmorClass { get; set; }
-        public string Resistances { get; set; }
-        public string Effects { get; set; }
+        public ICollection<Effect> Effects { get; set; }
         public int ArmorTypeId { get; set; }
 
         //
         [ForeignKey("ArmorTypeId")]
         public ArmorType ArmorType { get; set; }
-        public List<Trait> Traits { get; set; }
-        public List<Spell> Spells { get; set; }
+        public ICollection<Trait> Traits { get; set; }
+        public ICollection<Spell> Spells { get; set; }
     }
 }

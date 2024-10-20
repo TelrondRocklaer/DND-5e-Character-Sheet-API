@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
-    [Table("EquipmentCategories")]
-    public class EquipmentCategory
+    [Table("Deities")]
+    public class Deity
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-
-        //
-        [JsonIgnore]
-        public List<Equipment> Equipment { get; set; }
+        public string Description { get; set; }
+        public string Alignment { get; set; }
+        public string Domain { get; set; }
     }
 }

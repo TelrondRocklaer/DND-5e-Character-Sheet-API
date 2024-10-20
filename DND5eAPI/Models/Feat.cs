@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Structures.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -11,9 +13,10 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string IndexName { get; set; }
         public string Description { get; set; }
-        public string EffectString { get; set; }
+        public ICollection<Effect> Effects { get; set; }
 
         //
-        public List<Background> Backgrounds { get; set; }
+        [JsonIgnore]
+        public ICollection<Background> Backgrounds { get; set; }
     }
 }

@@ -7,14 +7,9 @@ namespace DND5eAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ArmorController : Controller
+    public class ArmorController(ApiDbContext context) : Controller
     {
-        private readonly ApiDbContext _context;
-
-        public ArmorController(ApiDbContext context)
-        {
-            _context = context;
-        }
+        private readonly ApiDbContext _context = context;
 
         // GET: api/Armor
         [HttpGet]

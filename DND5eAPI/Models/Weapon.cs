@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Structures.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DND5eAPI.Models
@@ -14,7 +15,7 @@ namespace DND5eAPI.Models
         public string DamageString { get; set; }
         public int MagicBonus { get; set; }
         public int WeaponTypeId { get; set; }
-        public string EffectString { get; set; }
+        public ICollection<Effect> Effects { get; set; }
         public int ConditionId { get; set; }
         public bool AttunementRequired { get; set; }
 
@@ -22,7 +23,7 @@ namespace DND5eAPI.Models
         [ForeignKey("ConditionId")]
         public Condition Condition { get; set; }
         public WeaponType WeaponType { get; set; }
-        public List<Trait> Traits { get; set; }
-        public List<Spell> Spells { get; set; }
+        public ICollection<Trait> Traits { get; set; }
+        public ICollection<Spell> Spells { get; set; }
     }
 }
