@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using DND5eAPI.Models.Extra.Effects;
 
-namespace DND5eAPI.Models.Structures.Effects
+namespace DND5eAPI.Utilities
 {
     public class EffectConverter : JsonConverter<Effect>
     {

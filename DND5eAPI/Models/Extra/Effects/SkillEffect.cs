@@ -1,4 +1,4 @@
-﻿namespace DND5eAPI.Models.Structures.Effects
+﻿namespace DND5eAPI.Models.Extra.Effects
 {
     public class SkillEffect : Effect
     {

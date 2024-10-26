@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DND5eAPI.Models.Extra.Effects;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -12,7 +13,7 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string PrimaryAbility { get; set; }
         public string HitDie { get; set; }
-        //public ICollection<Effect> Effects { get; set; }
+        public ICollection<Effect> Effects { get; set; }
         public int NumberOfSkillsToChoose { get; set; }
         public ICollection<string> SkillProficiencyOptions { get; set; }
         public int StartingGold { get; set; }

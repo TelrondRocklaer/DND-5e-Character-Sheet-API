@@ -1,4 +1,4 @@
-﻿using DND5eAPI.Models.Structures.Effects;
+﻿using DND5eAPI.Models.Extra.Effects;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -13,7 +13,7 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string IndexName { get; set; }
         public string Description { get; set; }
-        public ICollection<Effect> Effects { get; set; }
+        public ICollection<Effect>? Effects { get; set; }
         public string Requirement { get; set; }
 
         //

@@ -1,4 +1,6 @@
-﻿namespace DND5eAPI.Models.Structures.Effects
+﻿using DND5eAPI.Models.Extra.Effects;
+
+namespace DND5eAPI.Utilities
 {
     public class EffectComparer : IEqualityComparer<Effect>
     {

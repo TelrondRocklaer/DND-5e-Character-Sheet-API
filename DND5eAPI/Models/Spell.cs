@@ -1,4 +1,4 @@
-﻿using DND5eAPI.Models.Structures.Effects;
+﻿using DND5eAPI.Models.Extra.Effects;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -13,7 +13,8 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string IndexName { get; set; }
         public string Description { get; set; }
-        public ICollection<Effect> Effects { get; set; }
+        public string DamageString { get; set; }
+        public ICollection<Effect>? Effects { get; set; }
         public int ConditionId { get; set; }
         public string SpellSlotLevel { get; set; }
         public string UpcastEffect { get; set; }
@@ -27,8 +28,8 @@ namespace DND5eAPI.Models
         public bool IsRitual { get; set; }
         public bool Concentration { get; set; }    
         public bool IsRecurring { get; set; } // Do you need to make saving throws every round?
+        public bool IsRecuringOnMove { get; set; } // Do you need to make saving throws every time you move?
         public string School { get; set; }
-
         //
         [ForeignKey("ConditionId")]
         public Condition Condition { get; set; }

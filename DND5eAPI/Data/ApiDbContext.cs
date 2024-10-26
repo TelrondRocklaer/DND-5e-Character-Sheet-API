@@ -2,8 +2,9 @@
 using DND5eAPI.Models;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using DND5eAPI.Models.Structures.Effects;
+using DND5eAPI.Models.Extra.Effects;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using DND5eAPI.Utilities;
 
 namespace DND5eAPI.Data
 {

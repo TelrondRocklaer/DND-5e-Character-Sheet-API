@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DND5eAPI.Data;
-using DND5eAPI.Models.Structures.Effects;
+using DND5eAPI.Utilities;
 namespace DND5eAPI
 {
     public class Program

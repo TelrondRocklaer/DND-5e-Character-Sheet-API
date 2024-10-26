@@ -1,7 +1,6 @@
-﻿using DND5eAPI.Models.Structures;
+﻿using DND5eAPI.Models.Extra;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using static DND5eAPI.Models.Structures.CharacterData;
 
 namespace DND5eAPI.Models
 {
@@ -24,6 +23,8 @@ namespace DND5eAPI.Models
         public Resistances Resistances { get; set; }
         public bool HasAdvantageOnConcentrationSavingThrows { get; set; }
         public bool HasDisadvantageOnConcentrationSavingThrows { get; set; }
+        public bool IsConcentrating { get; set; }
+        public bool IsThreataned { get; set; }
 
         [NotMapped]
         [JsonIgnore]

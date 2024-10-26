@@ -1,4 +1,4 @@
-﻿namespace DND5eAPI.Models.Structures.Effects
+﻿namespace DND5eAPI.Models.Extra.Effects
 {
     public class ResistanceEffect : Effect
     {
@@ -29,9 +29,9 @@
             var damageType = character.Resistances[DamageType.ToLower()];
             if (damageType != null)
             {
-                damageType.IsVulnerable = IsVulnerable ? true : damageType.IsVulnerable;
-                damageType.IsResistant = IsResistant ? true : damageType.IsResistant;
-                damageType.IsImmune = IsImmune ? true : damageType.IsImmune;
+                damageType.IsVulnerable = IsVulnerable || damageType.IsVulnerable;
+                damageType.IsResistant = IsResistant || damageType.IsResistant;
+                damageType.IsImmune = IsImmune || damageType.IsImmune;
             }
         }
     }

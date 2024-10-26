@@ -1,4 +1,4 @@
-﻿namespace DND5eAPI.Models.Structures
+﻿namespace DND5eAPI.Models.Extra
 {
     public class SpellSlotDataNode(int level, int maxAvailable, int used = 0)
     {
