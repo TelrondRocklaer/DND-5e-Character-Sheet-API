@@ -1,5 +1,8 @@
-﻿namespace DND5eAPI.Models.Extra
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DND5eAPI.Models.Extra
 {
+    [NotMapped]
     public class SpellSlotDataNode(int level, int maxAvailable, int used = 0)
     {
         public int Level { get; set; } = level < 10 ? level : throw new ArgumentException("Max level spell slot is 9");

@@ -16,6 +16,10 @@ namespace DND5eAPI.Utilities
                 "ResistanceEffect" => JsonSerializer.Deserialize<ResistanceEffect>(root.GetRawText(), options),
                 "AttributeEffect" => JsonSerializer.Deserialize<AttributeEffect>(root.GetRawText(), options),
                 "SkillEffect" => JsonSerializer.Deserialize<SkillEffect>(root.GetRawText(), options),
+                "CharacterEffect" => JsonSerializer.Deserialize<CharacterEffect>(root.GetRawText(), options),
+                "AttackingActionEffect" => JsonSerializer.Deserialize<AttackingActionEffect>(root.GetRawText(), options),
+                "HealingActionEffect" => JsonSerializer.Deserialize<HealingActionEffect>(root.GetRawText(), options),
+                "ConditionEffect" => JsonSerializer.Deserialize<ConditionEffect>(root.GetRawText(), options),
                 _ => throw new JsonException($"Unknown effect type: {type}")
             };
         }

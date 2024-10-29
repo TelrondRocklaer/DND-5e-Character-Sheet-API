@@ -33,6 +33,16 @@ namespace DND5eAPI.Models.Extra
         Attribute Wisdom = new("Wisdom", ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"]);
         Attribute Charisma = new("Charisma", ["Deception", "Intimidation", "Performance", "Persuasion"]);
 
+        public static bool Exists(string name)
+        {
+            List<string> list = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"];
+            if (list.Contains(name.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public Attribute this[string name] => name switch
         {
             "strength" => Strength,

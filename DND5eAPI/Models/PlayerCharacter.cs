@@ -1,11 +1,14 @@
 ﻿using DND5eAPI.Models.Extra;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
+    [Table("PlayerCharacters")]
     public class PlayerCharacter
     {
+        [Key]
         public string Id { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }
@@ -16,13 +19,18 @@ namespace DND5eAPI.Models
         public int MovementSpeed { get; set; }
         public int SpecialPoints { get; set; } // Ki, Sorcery Points, etc.
         public int CurrentSpecialPoints { get; set; }
-        public List<SpellSlotDataNode> SpellSlots { get; set; }
+        public List<SpellSlotDataNode>? SpellSlots { get; set; }
         public bool WearsArmor { get; set; }
+        public bool WearsMetalArmor { get; set; }
         public bool IsShieldEquipped { get; set; }
         public Attributes Attributes { get; set; }
         public Resistances Resistances { get; set; }
         public bool HasAdvantageOnConcentrationSavingThrows { get; set; }
         public bool HasDisadvantageOnConcentrationSavingThrows { get; set; }
+        public bool HasAdvantageOnAttackRolls { get; set; }
+        public bool HasDisadvantageOnAttackRolls { get; set; }
+        public int SpellAttackRollBonus { get; set; }
+        public int WeaponAttackRollBonus { get; set; }
         public bool IsConcentrating { get; set; }
         public bool IsThreataned { get; set; }
 
@@ -66,6 +74,5 @@ namespace DND5eAPI.Models
         public ICollection<Armor> EquipedArmor { get; set; }
         public ICollection<Weapon> EquipedWeapons { get; set; }
         public ICollection<Spell> Spells { get; set; }
-        public ICollection<Condition> Conditions { get; set; }
     }
 }

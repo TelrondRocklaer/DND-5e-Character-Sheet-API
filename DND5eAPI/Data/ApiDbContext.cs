@@ -3,8 +3,6 @@ using DND5eAPI.Models;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using DND5eAPI.Models.Extra.Effects;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using DND5eAPI.Utilities;
 
 namespace DND5eAPI.Data
 {
@@ -21,12 +19,8 @@ namespace DND5eAPI.Data
                     modelBuilder.Entity(clrType).Property(effectProperty.Name)
                         .HasConversion(new ValueConverter<ICollection<Effect>, string>(
                             v => JsonSerializer.Serialize(v, JsonSerializerOptions.Default),
-                            v => JsonSerializer.Deserialize<ICollection<Effect>>(v, JsonSerializerOptions.Default) ?? new List<Effect>()))
-                        .Metadata.SetValueComparer(new ValueComparer<ICollection<Effect>>(
-                            (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2, new EffectComparer()),
-                            c => c != null ? c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())) : 0,
-                            c => c != null ? c.Select(e => e).ToList() : new List<Effect>()
-                    ));
+                            v => JsonSerializer.Deserialize<ICollection<Effect>>(v, JsonSerializerOptions.Default) ?? new List<Effect>())
+                    );
                 }
             }
         }
@@ -40,6 +34,7 @@ namespace DND5eAPI.Data
         public DbSet<EquipmentCategory> EquipmentCategory { get; set; } = default!;
         public DbSet<Feat> Feat { get; set; } = default!;
         public DbSet<Language> Language { get; set; } = default!;
+        public DbSet<PlayerCharacter> PlayerCharacter { get; set; } = default!;
         public DbSet<Race> Race { get; set; } = default!;
         public DbSet<Spell> Spell { get; set; } = default!;
         public DbSet<Tool> Tool { get; set; } = default!;

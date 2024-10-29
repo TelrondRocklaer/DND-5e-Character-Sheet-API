@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using DND5eAPI.Data;
 using DND5eAPI.Models;
+using DND5eAPI.Data.SeedData;
 
 namespace DND5eAPI.Controllers
 {

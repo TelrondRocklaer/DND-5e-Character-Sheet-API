@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DND5eAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20241026145744_Init")]
+    [Migration("20241029092532_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -219,12 +219,17 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ArmorTypeId");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Armors");
                 });
@@ -392,12 +397,17 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EquipmentCategoryId");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Equipment");
                 });
@@ -443,7 +453,12 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Feats");
                 });
@@ -472,6 +487,92 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("BackgroundId");
 
                     b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ArmorClass")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BackgroundId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentHitPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentSpecialPoints")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HasAdvantageOnAttackRolls")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasAdvantageOnConcentrationSavingThrows")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasDisadvantageOnAttackRolls")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasDisadvantageOnConcentrationSavingThrows")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsConcentrating")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsShieldEquipped")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsThreataned")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxHitPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovementSpeed")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpecialPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpellAttackRollBonus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TemporaryHitPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeaponAttackRollBonus")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WearsArmor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("WearsMetalArmor")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BackgroundId");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("RaceId");
+
+                    b.ToTable("PlayerCharacters");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Race", b =>
@@ -506,19 +607,15 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("CanTargetSelf")
+                        .HasColumnType("bit");
+
                     b.Property<string>("CastingTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Concentration")
                         .HasColumnType("bit");
-
-                    b.Property<int>("ConditionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DamageString")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -535,10 +632,10 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsRecuringOnMove")
+                    b.Property<bool>("IsRecurring")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsRecurring")
+                    b.Property<bool>("IsRecurringOnMove")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsRitual")
@@ -548,12 +645,14 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("MaterialComponentDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Range")
                         .IsRequired()
@@ -566,9 +665,8 @@ namespace DND5eAPI.Migrations
                     b.Property<bool>("SomaticComponent")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SpellSlotLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SpellSlotLevel")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpcastEffect")
                         .IsRequired()
@@ -579,7 +677,7 @@ namespace DND5eAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConditionId");
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Spells");
                 });
@@ -604,7 +702,12 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Tools");
                 });
@@ -632,11 +735,16 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Requirement")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Traits");
                 });
@@ -649,15 +757,11 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("AttunementRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ConditionId")
+                    b.Property<int?>("AppliedConditionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DamageString")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("AttunementRequired")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -677,6 +781,9 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("WeaponTypeId")
                         .HasColumnType("int");
 
@@ -685,7 +792,9 @@ namespace DND5eAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConditionId");
+                    b.HasIndex("AppliedConditionId");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.HasIndex("WeaponTypeId");
 
@@ -974,6 +1083,10 @@ namespace DND5eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("EquipedArmor")
+                        .HasForeignKey("PlayerCharacterId");
+
                     b.Navigation("ArmorType");
                 });
 
@@ -985,7 +1098,18 @@ namespace DND5eAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("Inventory")
+                        .HasForeignKey("PlayerCharacterId");
+
                     b.Navigation("EquipmentCategory");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.Feat", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("Feats")
+                        .HasForeignKey("PlayerCharacterId");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Language", b =>
@@ -995,24 +1119,63 @@ namespace DND5eAPI.Migrations
                         .HasForeignKey("BackgroundId");
                 });
 
-            modelBuilder.Entity("DND5eAPI.Models.Spell", b =>
+            modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
                 {
-                    b.HasOne("DND5eAPI.Models.Condition", "Condition")
-                        .WithMany("Spells")
-                        .HasForeignKey("ConditionId")
+                    b.HasOne("DND5eAPI.Models.Background", "Background")
+                        .WithMany()
+                        .HasForeignKey("BackgroundId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Condition");
+                    b.HasOne("DND5eAPI.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DND5eAPI.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Background");
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Race");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.Spell", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("Spells")
+                        .HasForeignKey("PlayerCharacterId");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.Tool", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("ToolProficiencies")
+                        .HasForeignKey("PlayerCharacterId");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.Trait", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("Traits")
+                        .HasForeignKey("PlayerCharacterId");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Weapon", b =>
                 {
                     b.HasOne("DND5eAPI.Models.Condition", "Condition")
                         .WithMany("Weapons")
-                        .HasForeignKey("ConditionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppliedConditionId");
+
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("EquipedWeapons")
+                        .HasForeignKey("PlayerCharacterId");
 
                     b.HasOne("DND5eAPI.Models.WeaponType", "WeaponType")
                         .WithMany("Weapons")
@@ -1112,14 +1275,29 @@ namespace DND5eAPI.Migrations
 
             modelBuilder.Entity("DND5eAPI.Models.Condition", b =>
                 {
-                    b.Navigation("Spells");
-
                     b.Navigation("Weapons");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.EquipmentCategory", b =>
                 {
                     b.Navigation("Equipment");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
+                {
+                    b.Navigation("EquipedArmor");
+
+                    b.Navigation("EquipedWeapons");
+
+                    b.Navigation("Feats");
+
+                    b.Navigation("Inventory");
+
+                    b.Navigation("Spells");
+
+                    b.Navigation("ToolProficiencies");
+
+                    b.Navigation("Traits");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.WeaponType", b =>

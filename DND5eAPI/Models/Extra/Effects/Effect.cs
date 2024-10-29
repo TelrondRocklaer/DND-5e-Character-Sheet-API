@@ -7,6 +7,5 @@ namespace DND5eAPI.Models.Extra.Effects
     public abstract class Effect
     {
         public abstract string EffectType { get; }
-        public abstract void ApplyEffect(PlayerCharacter character);
     }
 }
