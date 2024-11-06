@@ -3,9 +3,9 @@
 namespace DND5eAPI.Models.Extra.Effects
 {
     [NotMapped]
-    public class AttackingActionEffect : Effect
+    public class SpellAttackEffect : Effect
     {
-        public override string EffectType => "AttackingActionEffect";
+        public override string EffectType => "SpellAttackEffect";
         public string? Dice { get; set; }
         public bool IsAttackRoll { get; set; }
         public string? DamageType { get; set; }
@@ -13,18 +13,14 @@ namespace DND5eAPI.Models.Extra.Effects
         public int? SavingThrowDC { get; set; }
         public string? SavingThrowSuccessEffect { get; set; } // half-damage, no-damage, negate-effect
 
-        public AttackingActionEffect(string? dice, bool isAttackRoll, string damageType, string? savingThrowAttribute, int? savingThrowDC, string? savingThrowSuccessEffect)
+        public SpellAttackEffect(string? dice = null, bool isAttackRoll = false, string? damageType = null, string? savingThrowAttribute = null, int? savingThrowDC = null, string? savingThrowSuccessEffect = null)
         {
             if (isAttackRoll)
             {
-                if (!DamageTypes.Exists(damageType))
+                if (!DamageTypes.Exists(damageType!))
                 {
                     throw new ArgumentException("Attack action set incorrectly");
                 }
-            }
-            if (string.IsNullOrEmpty(dice))
-            {
-                throw new ArgumentException("Dice cannot be null or empty");
             }
             if (!string.IsNullOrEmpty(savingThrowAttribute))
             {
@@ -40,18 +36,18 @@ namespace DND5eAPI.Models.Extra.Effects
                     throw new ArgumentException("Saving throw attributes mismatch");
                 }
             }
-            if (savingThrowSuccessEffect != null)
-            {
-                if (savingThrowSuccessEffect != "half-damage" && savingThrowSuccessEffect != "no-damage" && savingThrowSuccessEffect != "negate-effect")
-                {
-                    throw new ArgumentException("Saving throw success effect mismatch");
-                }
-            }
             if (damageType != null)
             {
-                if (!DamageTypes.Exists(damageType))
+                if (damageType.Contains(','))
                 {
-                    throw new ArgumentException("Invalid damage type");
+                    string[] damageTypes = damageType.Split(',');
+                    foreach (string type in damageTypes)
+                    {
+                        if (!DamageTypes.Exists(type))
+                        {
+                            throw new ArgumentException("Invalid damage type");
+                        }
+                    }
                 }
             }
             if (savingThrowAttribute != null)
@@ -59,6 +55,13 @@ namespace DND5eAPI.Models.Extra.Effects
                 if (!Attributes.Exists(savingThrowAttribute))
                 {
                     throw new ArgumentException("Invalid saving throw attribute");
+                }
+            }
+            if (savingThrowDC != null)
+            {
+                if (savingThrowDC < -1)
+                {
+                    throw new ArgumentException("Saving throw DC cannot be lower than 0");
                 }
             }
             Dice = dice;

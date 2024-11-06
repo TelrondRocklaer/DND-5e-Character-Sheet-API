@@ -16,12 +16,10 @@ namespace DND5eAPI.Models
         public int WeaponTypeId { get; set; }
         public double Weight { get; set; }
         public ICollection<Effect>? Effects { get; set; }
-        public int? AppliedConditionId { get; set; }
         public bool AttunementRequired { get; set; }
 
         //
-        [ForeignKey("AppliedConditionId")]
-        public Condition Condition { get; set; }
+        [ForeignKey("WeaponTypeId")]
         public WeaponType WeaponType { get; set; }
         public ICollection<Trait> Traits { get; set; }
         public ICollection<Spell> Spells { get; set; }

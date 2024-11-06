@@ -10,6 +10,8 @@ namespace DND5eAPI.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string FullDescription { get; set; }
         public string Size { get; set; }
         public int BaseMovementSpeed { get; set; }
 

@@ -6,16 +6,13 @@
         public string TargetAttribute { get; set; }
         public bool SetAttribute { get; set; }
         public int Modifier { get; set; }
-        public bool IsProficientInSavingThrows { get; set; }
-        public bool HasAdvantageOnSavingThrows { get; set; }
-        public bool HasAdvantageOnAbilityChecks { get; set; }
-        public bool HasDisadvantageOnSavingThrows { get; set; }
-        public bool HasDisadvantageOnAbilityChecks { get; set; }
+        public bool? AddOrRemoveProficiencyInSavingThrows { get; set; }
+        public bool? HasAdvantageOrDisadvantageOnSavingThrows { get; set; }
+        public bool? HasAdvantageOrDisadvantageOnAbilityChecks { get; set; }
+        public bool? AutomaticallySucceedsOnSavingThrows { get; set; }
 
-        public AttributeEffect(string targetAttribute, bool setAttribute = false, int modifier = 0,
-            bool isProficientInSavingThrows = false, bool hasAdvantageOnSavingThrows = false,
-            bool hasAdvantageOnAbilityChecks = false, bool hasDisadvantageOnSavingThrows = false,
-            bool hasDisadvantageOnAbilityChecks = false)
+        public AttributeEffect(string targetAttribute, bool setAttribute = false, int modifier = 0, bool? addOrRemoveProficiencyInSavingThrows = null, 
+            bool? hasAdvantageOrDisadvantageOnSavingThrows = null, bool? hasAdvantageOrDisadvantageOnAbilityChecks = null, bool? automaticallySucceedsOnSavingThrows = null)
         {
             if (!Attributes.Exists(targetAttribute))
             {
@@ -28,19 +25,10 @@
             }
             SetAttribute = setAttribute;
             Modifier = modifier;
-            if (hasAdvantageOnAbilityChecks && hasDisadvantageOnAbilityChecks)
-            {
-                throw new ArgumentException("Cannot have advantage and disadvantage on ability checks");
-            }
-            if (hasAdvantageOnSavingThrows && hasDisadvantageOnSavingThrows)
-            {
-                throw new ArgumentException("Cannot have advantage and disadvantage on saving throws");
-            }
-            IsProficientInSavingThrows = isProficientInSavingThrows;
-            HasAdvantageOnSavingThrows = hasAdvantageOnSavingThrows;
-            HasAdvantageOnAbilityChecks = hasAdvantageOnAbilityChecks;
-            HasDisadvantageOnSavingThrows = hasDisadvantageOnSavingThrows;
-            HasDisadvantageOnAbilityChecks = hasDisadvantageOnAbilityChecks;
+            AddOrRemoveProficiencyInSavingThrows = addOrRemoveProficiencyInSavingThrows;
+            HasAdvantageOrDisadvantageOnSavingThrows = hasAdvantageOrDisadvantageOnSavingThrows;
+            HasAdvantageOrDisadvantageOnAbilityChecks = hasAdvantageOrDisadvantageOnAbilityChecks;
+            AutomaticallySucceedsOnSavingThrows = automaticallySucceedsOnSavingThrows;
         }
     }
 }

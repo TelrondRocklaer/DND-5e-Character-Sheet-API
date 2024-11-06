@@ -23,5 +23,7 @@ namespace DND5eAPI.Models
         public EquipmentCategory EquipmentCategory { get; set; }
         [JsonIgnore]
         public List<Background> Backgrounds { get; set; }
+        [JsonIgnore]
+        public List<Tool> Tools { get; set; }
     }
 }

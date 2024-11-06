@@ -1,13 +1,13 @@
 ﻿namespace DND5eAPI.Models.Extra.Effects
 {
-    public class HealingActionEffect : Effect
+    public class SpellHealingEffect : Effect
     {
-        public override string EffectType => "HealingActionEffect";
+        public override string EffectType => "SpellHealingEffect";
         public string? Dice { get; set; }
         public int? Amount { get; set; }
         public bool IsTempHP { get; set; }
         
-        public HealingActionEffect(string? dice = null, int amount = 0, bool isTempHP = false)
+        public SpellHealingEffect(string? dice = null, int amount = 0, bool isTempHP = false)
         {
             if (string.IsNullOrEmpty(dice) && amount == 0)
             {

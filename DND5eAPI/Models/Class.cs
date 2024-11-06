@@ -19,6 +19,7 @@ namespace DND5eAPI.Models
         public int StartingGold { get; set; }
 
         //
+        public ICollection<Subclass> Subclasses { get; set; }
         public ICollection<ArmorType> ArmorProficiencies { get; set; }
         public ICollection<WeaponType> WeaponProficiencies { get; set; }
         public ICollection<Tool> ToolProficiencies { get; set; }

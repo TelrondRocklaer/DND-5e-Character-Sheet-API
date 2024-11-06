@@ -17,6 +17,9 @@ namespace DND5eAPI.Models
         public int CurrentHitPoints { get; set; }
         public int TemporaryHitPoints { get; set; }
         public int MovementSpeed { get; set; }
+        public int NumberOfActions { get; set; }
+        public int NumberOfBonusActions { get; set; }
+        public int NumberOfReactions { get; set; }
         public int SpecialPoints { get; set; } // Ki, Sorcery Points, etc.
         public int CurrentSpecialPoints { get; set; }
         public List<SpellSlotDataNode>? SpellSlots { get; set; }
@@ -29,10 +32,15 @@ namespace DND5eAPI.Models
         public bool HasDisadvantageOnConcentrationSavingThrows { get; set; }
         public bool HasAdvantageOnAttackRolls { get; set; }
         public bool HasDisadvantageOnAttackRolls { get; set; }
+        public bool AttackersHaveAdvantageOnAttackRolls { get; set; }
+        public bool AttackersHaveDisadvantageOnAttackRolls { get; set; }
+        public bool HasAdvantageOnAbilityChecks { get; set; }
+        public bool HasDisadvantageOnAbilityChecks { get; set; }
         public int SpellAttackRollBonus { get; set; }
         public int WeaponAttackRollBonus { get; set; }
         public bool IsConcentrating { get; set; }
         public bool IsThreataned { get; set; }
+        public int ExhaustionLevel { get; set; }
 
         [NotMapped]
         [JsonIgnore]
@@ -59,9 +67,17 @@ namespace DND5eAPI.Models
         [ForeignKey("RaceId")]
         public Race Race { get; set; }
 
+        public int SubraceId { get; set; }
+        [ForeignKey("SubraceId")]
+        public Subrace Subrace { get; set; }
+
         public int ClassId { get; set; }
         [ForeignKey("ClassId")]
         public Class Class { get; set; }
+
+        public int SubclassId { get; set; }
+        [ForeignKey("SubclassId")]
+        public Subclass Subclass { get; set; }
 
         public int BackgroundId { get; set; }
         [ForeignKey("BackgroundId")]

@@ -16,10 +16,17 @@ namespace DND5eAPI.Utilities
                 "ResistanceEffect" => JsonSerializer.Deserialize<ResistanceEffect>(root.GetRawText(), options),
                 "AttributeEffect" => JsonSerializer.Deserialize<AttributeEffect>(root.GetRawText(), options),
                 "SkillEffect" => JsonSerializer.Deserialize<SkillEffect>(root.GetRawText(), options),
-                "CharacterEffect" => JsonSerializer.Deserialize<CharacterEffect>(root.GetRawText(), options),
-                "AttackingActionEffect" => JsonSerializer.Deserialize<AttackingActionEffect>(root.GetRawText(), options),
-                "HealingActionEffect" => JsonSerializer.Deserialize<HealingActionEffect>(root.GetRawText(), options),
+                "ArmorClassEffect" => JsonSerializer.Deserialize<ArmorClassEffect>(root.GetRawText(), options),
+                "AttackRollEffect" => JsonSerializer.Deserialize<AttackRollEffect>(root.GetRawText(), options),
+                "AbilityCheckEffect" => JsonSerializer.Deserialize<AbilityCheckEffect>(root.GetRawText(), options),
+                "OtherCharacterEffect" => JsonSerializer.Deserialize<OtherCharacterEffect>(root.GetRawText(), options),
+                "SpellAttackEffect" => JsonSerializer.Deserialize<SpellAttackEffect>(root.GetRawText(), options),
+                "SpellHealingEffect" => JsonSerializer.Deserialize<SpellHealingEffect>(root.GetRawText(), options),
                 "ConditionEffect" => JsonSerializer.Deserialize<ConditionEffect>(root.GetRawText(), options),
+                "ActionEconomyEffect" => JsonSerializer.Deserialize<ActionEconomyEffect>(root.GetRawText(), options),
+                "EsotericEffect" => JsonSerializer.Deserialize<EsotericEffect>(root.GetRawText(), options),
+                "ExtraWeaponDamageEffect" => JsonSerializer.Deserialize<ExtraWeaponDamageEffect>(root.GetRawText(), options),
+                "SpellCostEffect" => JsonSerializer.Deserialize<SpellCostEffect>(root.GetRawText(), options),
                 _ => throw new JsonException($"Unknown effect type: {type}")
             };
         }

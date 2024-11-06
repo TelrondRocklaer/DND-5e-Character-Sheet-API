@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using DND5eAPI.Models.Extra;
 
 namespace DND5eAPI.Models
 {
@@ -10,9 +11,14 @@ namespace DND5eAPI.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsMartial { get; set; }
+        public string BaseDamage { get; set; }
+        public string DamageType { get; set; }
+        public int BaseCost { get; set; }
+        public double Weight { get; set; }
+        public ICollection<WeaponProperty> Properties { get; set; }
 
-        //
-        public List<WeaponProperty> Properties { get; set; }
+        //    
         [JsonIgnore]
         public List<Weapon> Weapons { get; set; }
         [JsonIgnore]

@@ -16,7 +16,9 @@ namespace DND5eAPI.Models
         public bool CanTargetSelf { get; set; }
         public ICollection<Effect>? Effects { get; set; }
         public int SpellSlotLevel { get; set; }
-        public string UpcastEffect { get; set; }
+        public string? UpcastEffect { get; set; }
+        public ICollection<int>? UpgradeLevels { get; set; }
+        public int BaseNumberOfCasts { get; set; }
         public string Range { get; set; }
         public bool VerbalComponent { get; set; }
         public bool SomaticComponent { get; set; }

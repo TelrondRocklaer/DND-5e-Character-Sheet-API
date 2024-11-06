@@ -5,12 +5,10 @@
         public override string EffectType => "SkillEffect";
         public string AttributeName { get; set; }
         public string SkillName { get; set; }
-        public bool IsProficient { get; set; } = false;
-        public bool HasAdvantageOnChecks { get; set; } = false;
-        public bool HasDisadvantageOnChecks { get; set; } = false;
+        public bool? AddOrRemoveProficiency { get; set; } = null;
+        public bool? HasAdvantageOrDisadvantageOnChecks { get; set; } = null;
 
-        public SkillEffect(string attributeName, string skillName, bool isProficient = false,
-            bool hasAdvantageOnChecks = false, bool hasDisadvantageOnChecks = false)
+        public SkillEffect(string attributeName, string skillName, bool? addOrRemoveProficiency = null, bool? hasAdvantageOrDisadvantageOnChecks = null)
         {
             if (!Attributes.Exists(attributeName) || new Attributes()[attributeName][skillName] == null)
             {
@@ -18,13 +16,12 @@
             }
             AttributeName = attributeName;
             SkillName = skillName;
-            IsProficient = isProficient;
-            if (hasAdvantageOnChecks && hasDisadvantageOnChecks)
+            if (addOrRemoveProficiency == null && hasAdvantageOrDisadvantageOnChecks == null)
             {
-                throw new ArgumentException("Cannot have both advantage and disadvantage on checks");
+                throw new ArgumentException("Must specify at least one of addOrRemoveProficiency or hasAdvantageOnChecks");
             }
-            HasAdvantageOnChecks = hasAdvantageOnChecks;
-            HasDisadvantageOnChecks = hasDisadvantageOnChecks;
+            AddOrRemoveProficiency = addOrRemoveProficiency;
+            HasAdvantageOrDisadvantageOnChecks = hasAdvantageOrDisadvantageOnChecks;
         }
     }
 }

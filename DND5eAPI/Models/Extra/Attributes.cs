@@ -11,16 +11,15 @@ namespace DND5eAPI.Models.Extra
             public int Value { get; set; } = 10;
             public bool IsProficientInSavingThrows { get; set; } = false;
             public bool HasAdvantageOnSavingThrows { get; set; } = false;
-            public bool HasAdvantageOnAbilityChecks { get; set; } = false;
             public bool HasDisadvantageOnSavingThrows { get; set; } = false;
-            public bool HasDisadvantageOnAbilityChecks { get; set; } = false;
+            public bool HasAdvantageOnChecks { get; set; } = false;
+            public bool HasDisadvantageOnChecks { get; set; } = false;
             public List<Skill> Skills { get; set; } = skills.Select(name => new Skill(name)).ToList();
             public class Skill(string name)
             {
                 public string Name { get; set; } = name;
                 public bool IsProficient { get; set; } = false;
-                public bool HasAdvantageOnChecks { get; set; } = false;
-                public bool HasDisadvantageOnChecks { get; set; } = false;
+                public int AdvantageOnChecks { get; set; } = 0;
             }
             public int Modifier => (Value - 10) / 2;
             public Skill this[string name] => Skills.FirstOrDefault(skill => skill.Name == name) ?? throw new ArgumentException($"Invalid skill name: {name}");
