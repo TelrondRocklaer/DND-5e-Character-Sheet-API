@@ -26,41 +26,6 @@ namespace DND5eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Backgrounds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SkillProficiencies = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartingGold = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Backgrounds", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Classes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PrimaryAbility = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HitDie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Effects = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumberOfSkillsToChoose = table.Column<int>(type: "int", nullable: false),
-                    SkillProficiencyOptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartingGold = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Conditions",
                 columns: table => new
                 {
@@ -122,6 +87,21 @@ namespace DND5eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tools",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IndexName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Actions = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tools", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WeaponTypes",
                 columns: table => new
                 {
@@ -138,71 +118,6 @@ namespace DND5eAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WeaponTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Languages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BackgroundId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Languages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Languages_Backgrounds_BackgroundId",
-                        column: x => x.BackgroundId,
-                        principalTable: "Backgrounds",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ArmorTypeClass",
-                columns: table => new
-                {
-                    ArmorProficienciesId = table.Column<int>(type: "int", nullable: false),
-                    ClassesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArmorTypeClass", x => new { x.ArmorProficienciesId, x.ClassesId });
-                    table.ForeignKey(
-                        name: "FK_ArmorTypeClass_ArmorTypes_ArmorProficienciesId",
-                        column: x => x.ArmorProficienciesId,
-                        principalTable: "ArmorTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArmorTypeClass_Classes_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subclasses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subclasses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Subclasses_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,49 +142,82 @@ namespace DND5eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassWeaponType",
+                name: "Backgrounds",
                 columns: table => new
                 {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    WeaponProficienciesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Proficiencies = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartingGold = table.Column<long>(type: "bigint", nullable: false),
+                    ToolId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassWeaponType", x => new { x.ClassesId, x.WeaponProficienciesId });
+                    table.PrimaryKey("PK_Backgrounds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClassWeaponType_Classes_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClassWeaponType_WeaponTypes_WeaponProficienciesId",
-                        column: x => x.WeaponProficienciesId,
-                        principalTable: "WeaponTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Backgrounds_Tools_ToolId",
+                        column: x => x.ToolId,
+                        principalTable: "Tools",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "LanguageRace",
+                name: "Classes",
                 columns: table => new
                 {
-                    LanguagesId = table.Column<int>(type: "int", nullable: false),
-                    RacesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrimaryAbility = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HitDie = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialPointsName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumberOfSkillsToChoose = table.Column<int>(type: "int", nullable: false),
+                    SkillProficiencyOptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartingGold = table.Column<int>(type: "int", nullable: false),
+                    Proficiencies = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ArmorTypeId = table.Column<int>(type: "int", nullable: true),
+                    ToolId = table.Column<int>(type: "int", nullable: true),
+                    WeaponTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LanguageRace", x => new { x.LanguagesId, x.RacesId });
+                    table.PrimaryKey("PK_Classes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LanguageRace_Languages_LanguagesId",
-                        column: x => x.LanguagesId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Classes_ArmorTypes_ArmorTypeId",
+                        column: x => x.ArmorTypeId,
+                        principalTable: "ArmorTypes",
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_LanguageRace_Races_RacesId",
-                        column: x => x.RacesId,
-                        principalTable: "Races",
+                        name: "FK_Classes_Tools_ToolId",
+                        column: x => x.ToolId,
+                        principalTable: "Tools",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Classes_WeaponTypes_WeaponTypeId",
+                        column: x => x.WeaponTypeId,
+                        principalTable: "WeaponTypes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subclasses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subclasses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Subclasses_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -281,36 +229,14 @@ namespace DND5eAPI.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    ArmorClass = table.Column<int>(type: "int", nullable: false),
                     MaxHitPoints = table.Column<int>(type: "int", nullable: false),
-                    CurrentHitPoints = table.Column<int>(type: "int", nullable: false),
-                    TemporaryHitPoints = table.Column<int>(type: "int", nullable: false),
-                    MovementSpeed = table.Column<int>(type: "int", nullable: false),
-                    NumberOfActions = table.Column<int>(type: "int", nullable: false),
-                    NumberOfBonusActions = table.Column<int>(type: "int", nullable: false),
-                    NumberOfReactions = table.Column<int>(type: "int", nullable: false),
                     SpecialPoints = table.Column<int>(type: "int", nullable: false),
-                    CurrentSpecialPoints = table.Column<int>(type: "int", nullable: false),
-                    WearsArmor = table.Column<bool>(type: "bit", nullable: false),
-                    WearsMetalArmor = table.Column<bool>(type: "bit", nullable: false),
-                    IsShieldEquipped = table.Column<bool>(type: "bit", nullable: false),
-                    HasAdvantageOnConcentrationSavingThrows = table.Column<bool>(type: "bit", nullable: false),
-                    HasDisadvantageOnConcentrationSavingThrows = table.Column<bool>(type: "bit", nullable: false),
-                    HasAdvantageOnAttackRolls = table.Column<bool>(type: "bit", nullable: false),
-                    HasDisadvantageOnAttackRolls = table.Column<bool>(type: "bit", nullable: false),
-                    AttackersHaveAdvantageOnAttackRolls = table.Column<bool>(type: "bit", nullable: false),
-                    AttackersHaveDisadvantageOnAttackRolls = table.Column<bool>(type: "bit", nullable: false),
-                    HasAdvantageOnAbilityChecks = table.Column<bool>(type: "bit", nullable: false),
-                    HasDisadvantageOnAbilityChecks = table.Column<bool>(type: "bit", nullable: false),
-                    SpellAttackRollBonus = table.Column<int>(type: "int", nullable: false),
-                    WeaponAttackRollBonus = table.Column<int>(type: "int", nullable: false),
-                    IsConcentrating = table.Column<bool>(type: "bit", nullable: false),
-                    IsThreataned = table.Column<bool>(type: "bit", nullable: false),
-                    ExhaustionLevel = table.Column<int>(type: "int", nullable: false),
+                    Proficiencies = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RaceId = table.Column<int>(type: "int", nullable: false),
-                    SubraceId = table.Column<int>(type: "int", nullable: false),
+                    SubraceId = table.Column<int>(type: "int", nullable: true),
                     ClassId = table.Column<int>(type: "int", nullable: false),
-                    SubclassId = table.Column<int>(type: "int", nullable: false),
+                    SubclassId = table.Column<int>(type: "int", nullable: true),
                     BackgroundId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -321,31 +247,59 @@ namespace DND5eAPI.Migrations
                         column: x => x.BackgroundId,
                         principalTable: "Backgrounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerCharacters_Classes_ClassId",
                         column: x => x.ClassId,
                         principalTable: "Classes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerCharacters_Races_RaceId",
                         column: x => x.RaceId,
                         principalTable: "Races",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlayerCharacters_Subclasses_SubclassId",
                         column: x => x.SubclassId,
                         principalTable: "Subclasses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PlayerCharacters_Subraces_SubraceId",
                         column: x => x.SubraceId,
                         principalTable: "Subraces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Traits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IndexName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Effects = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Requirement = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnlockLevel = table.Column<int>(type: "int", nullable: false),
+                    SubclassId = table.Column<int>(type: "int", nullable: true),
+                    SubraceId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Traits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Traits_Subclasses_SubclassId",
+                        column: x => x.SubclassId,
+                        principalTable: "Subclasses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Traits_Subraces_SubraceId",
+                        column: x => x.SubraceId,
+                        principalTable: "Subraces",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -392,11 +346,17 @@ namespace DND5eAPI.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EquipmentCategoryId = table.Column<int>(type: "int", nullable: false),
                     Effects = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClassId = table.Column<int>(type: "int", nullable: true),
                     PlayerCharacterId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipment_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Equipment_EquipmentCategories_EquipmentCategoryId",
                         column: x => x.EquipmentCategoryId,
@@ -433,6 +393,32 @@ namespace DND5eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Languages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BackgroundId = table.Column<int>(type: "int", nullable: true),
+                    PlayerCharacterId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Languages_Backgrounds_BackgroundId",
+                        column: x => x.BackgroundId,
+                        principalTable: "Backgrounds",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Languages_PlayerCharacters_PlayerCharacterId",
+                        column: x => x.PlayerCharacterId,
+                        principalTable: "PlayerCharacters",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Spells",
                 columns: table => new
                 {
@@ -455,6 +441,7 @@ namespace DND5eAPI.Migrations
                     Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CastingTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsRitual = table.Column<bool>(type: "bit", nullable: false),
+                    Cooldown = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Concentration = table.Column<bool>(type: "bit", nullable: false),
                     IsRecurring = table.Column<bool>(type: "bit", nullable: false),
                     IsRecurringOnMove = table.Column<bool>(type: "bit", nullable: false),
@@ -474,62 +461,6 @@ namespace DND5eAPI.Migrations
                         name: "FK_Spells_Subclasses_SubclassId",
                         column: x => x.SubclassId,
                         principalTable: "Subclasses",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tools",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IndexName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Actions = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PlayerCharacterId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tools", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tools_PlayerCharacters_PlayerCharacterId",
-                        column: x => x.PlayerCharacterId,
-                        principalTable: "PlayerCharacters",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Traits",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IndexName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Effects = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Requirement = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PlayerCharacterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SubclassId = table.Column<int>(type: "int", nullable: true),
-                    SubraceId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Traits", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Traits_PlayerCharacters_PlayerCharacterId",
-                        column: x => x.PlayerCharacterId,
-                        principalTable: "PlayerCharacters",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Traits_Subclasses_SubclassId",
-                        column: x => x.SubclassId,
-                        principalTable: "Subclasses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Traits_Subraces_SubraceId",
-                        column: x => x.SubraceId,
-                        principalTable: "Subraces",
                         principalColumn: "Id");
                 });
 
@@ -567,198 +498,6 @@ namespace DND5eAPI.Migrations
                         name: "FK_Weapons_WeaponTypes_WeaponTypeId",
                         column: x => x.WeaponTypeId,
                         principalTable: "WeaponTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BackgroundEquipment",
-                columns: table => new
-                {
-                    BackgroundsId = table.Column<int>(type: "int", nullable: false),
-                    EquipmentId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BackgroundEquipment", x => new { x.BackgroundsId, x.EquipmentId });
-                    table.ForeignKey(
-                        name: "FK_BackgroundEquipment_Backgrounds_BackgroundsId",
-                        column: x => x.BackgroundsId,
-                        principalTable: "Backgrounds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BackgroundEquipment_Equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BackgroundFeat",
-                columns: table => new
-                {
-                    BackgroundsId = table.Column<int>(type: "int", nullable: false),
-                    FeatsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BackgroundFeat", x => new { x.BackgroundsId, x.FeatsId });
-                    table.ForeignKey(
-                        name: "FK_BackgroundFeat_Backgrounds_BackgroundsId",
-                        column: x => x.BackgroundsId,
-                        principalTable: "Backgrounds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BackgroundFeat_Feats_FeatsId",
-                        column: x => x.FeatsId,
-                        principalTable: "Feats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ArmorSpell",
-                columns: table => new
-                {
-                    ArmorsId = table.Column<int>(type: "int", nullable: false),
-                    SpellsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArmorSpell", x => new { x.ArmorsId, x.SpellsId });
-                    table.ForeignKey(
-                        name: "FK_ArmorSpell_Armors_ArmorsId",
-                        column: x => x.ArmorsId,
-                        principalTable: "Armors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArmorSpell_Spells_SpellsId",
-                        column: x => x.SpellsId,
-                        principalTable: "Spells",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClassSpell",
-                columns: table => new
-                {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    SpellsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClassSpell", x => new { x.ClassesId, x.SpellsId });
-                    table.ForeignKey(
-                        name: "FK_ClassSpell_Classes_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClassSpell_Spells_SpellsId",
-                        column: x => x.SpellsId,
-                        principalTable: "Spells",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BackgroundTool",
-                columns: table => new
-                {
-                    BackgroundsId = table.Column<int>(type: "int", nullable: false),
-                    ToolProficienciesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BackgroundTool", x => new { x.BackgroundsId, x.ToolProficienciesId });
-                    table.ForeignKey(
-                        name: "FK_BackgroundTool_Backgrounds_BackgroundsId",
-                        column: x => x.BackgroundsId,
-                        principalTable: "Backgrounds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BackgroundTool_Tools_ToolProficienciesId",
-                        column: x => x.ToolProficienciesId,
-                        principalTable: "Tools",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClassTool",
-                columns: table => new
-                {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    ToolProficienciesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClassTool", x => new { x.ClassesId, x.ToolProficienciesId });
-                    table.ForeignKey(
-                        name: "FK_ClassTool_Classes_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Classes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClassTool_Tools_ToolProficienciesId",
-                        column: x => x.ToolProficienciesId,
-                        principalTable: "Tools",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EquipmentTool",
-                columns: table => new
-                {
-                    CraftableItemsId = table.Column<int>(type: "int", nullable: false),
-                    ToolsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquipmentTool", x => new { x.CraftableItemsId, x.ToolsId });
-                    table.ForeignKey(
-                        name: "FK_EquipmentTool_Equipment_CraftableItemsId",
-                        column: x => x.CraftableItemsId,
-                        principalTable: "Equipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EquipmentTool_Tools_ToolsId",
-                        column: x => x.ToolsId,
-                        principalTable: "Tools",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ArmorTrait",
-                columns: table => new
-                {
-                    ArmorsId = table.Column<int>(type: "int", nullable: false),
-                    TraitsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArmorTrait", x => new { x.ArmorsId, x.TraitsId });
-                    table.ForeignKey(
-                        name: "FK_ArmorTrait_Armors_ArmorsId",
-                        column: x => x.ArmorsId,
-                        principalTable: "Armors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArmorTrait_Traits_TraitsId",
-                        column: x => x.TraitsId,
-                        principalTable: "Traits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -836,6 +575,174 @@ namespace DND5eAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ArmorTrait",
+                columns: table => new
+                {
+                    ArmorsId = table.Column<int>(type: "int", nullable: false),
+                    TraitsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArmorTrait", x => new { x.ArmorsId, x.TraitsId });
+                    table.ForeignKey(
+                        name: "FK_ArmorTrait_Armors_ArmorsId",
+                        column: x => x.ArmorsId,
+                        principalTable: "Armors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArmorTrait_Traits_TraitsId",
+                        column: x => x.TraitsId,
+                        principalTable: "Traits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BackgroundEquipment",
+                columns: table => new
+                {
+                    BackgroundsId = table.Column<int>(type: "int", nullable: false),
+                    EquipmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BackgroundEquipment", x => new { x.BackgroundsId, x.EquipmentId });
+                    table.ForeignKey(
+                        name: "FK_BackgroundEquipment_Backgrounds_BackgroundsId",
+                        column: x => x.BackgroundsId,
+                        principalTable: "Backgrounds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BackgroundEquipment_Equipment_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EquipmentTool",
+                columns: table => new
+                {
+                    CraftableItemsId = table.Column<int>(type: "int", nullable: false),
+                    ToolsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EquipmentTool", x => new { x.CraftableItemsId, x.ToolsId });
+                    table.ForeignKey(
+                        name: "FK_EquipmentTool_Equipment_CraftableItemsId",
+                        column: x => x.CraftableItemsId,
+                        principalTable: "Equipment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EquipmentTool_Tools_ToolsId",
+                        column: x => x.ToolsId,
+                        principalTable: "Tools",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BackgroundFeat",
+                columns: table => new
+                {
+                    BackgroundsId = table.Column<int>(type: "int", nullable: false),
+                    FeatsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BackgroundFeat", x => new { x.BackgroundsId, x.FeatsId });
+                    table.ForeignKey(
+                        name: "FK_BackgroundFeat_Backgrounds_BackgroundsId",
+                        column: x => x.BackgroundsId,
+                        principalTable: "Backgrounds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BackgroundFeat_Feats_FeatsId",
+                        column: x => x.FeatsId,
+                        principalTable: "Feats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LanguageRace",
+                columns: table => new
+                {
+                    LanguagesId = table.Column<int>(type: "int", nullable: false),
+                    RacesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LanguageRace", x => new { x.LanguagesId, x.RacesId });
+                    table.ForeignKey(
+                        name: "FK_LanguageRace_Languages_LanguagesId",
+                        column: x => x.LanguagesId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LanguageRace_Races_RacesId",
+                        column: x => x.RacesId,
+                        principalTable: "Races",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArmorSpell",
+                columns: table => new
+                {
+                    ArmorsId = table.Column<int>(type: "int", nullable: false),
+                    SpellsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArmorSpell", x => new { x.ArmorsId, x.SpellsId });
+                    table.ForeignKey(
+                        name: "FK_ArmorSpell_Armors_ArmorsId",
+                        column: x => x.ArmorsId,
+                        principalTable: "Armors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArmorSpell_Spells_SpellsId",
+                        column: x => x.SpellsId,
+                        principalTable: "Spells",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClassSpell",
+                columns: table => new
+                {
+                    ClassesId = table.Column<int>(type: "int", nullable: false),
+                    SpellsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassSpell", x => new { x.ClassesId, x.SpellsId });
+                    table.ForeignKey(
+                        name: "FK_ClassSpell_Classes_ClassesId",
+                        column: x => x.ClassesId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassSpell_Spells_SpellsId",
+                        column: x => x.SpellsId,
+                        principalTable: "Spells",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SpellWeapon",
                 columns: table => new
                 {
@@ -894,6 +801,16 @@ namespace DND5eAPI.Migrations
                     { 4, "Heavy" },
                     { 5, "Shield" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Backgrounds",
+                columns: new[] { "Id", "Description", "Name", "Proficiencies", "StartingGold", "ToolId" },
+                values: new object[] { 1, "You began training for war as soon as you reached adulthood and carry precious few memories of life before you took up arms. Battle is in your blood. Sometimes you catch yourself reflexively performing the basic fighting exercises you learned first. Eventually, you put that training to use on the battlefield, protecting the realm by waging war", "Soldier", "[{\"ProficiencyType\":\"SkillProficiency\"},{\"ProficiencyType\":\"SkillProficiency\"}]", 14L, null });
+
+            migrationBuilder.InsertData(
+                table: "Classes",
+                columns: new[] { "Id", "ArmorTypeId", "HitDie", "Name", "NumberOfSkillsToChoose", "PrimaryAbility", "Proficiencies", "SkillProficiencyOptions", "SpecialPointsName", "StartingGold", "ToolId", "WeaponTypeId" },
+                values: new object[] { 1, null, "d12", "Barbarian", 2, "Strength", "[{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"SavingThrowProficiency\"},{\"ProficiencyType\":\"SavingThrowProficiency\"}]", "[\"Animal Handling\",\"Athletics\",\"Intimidation\",\"Nature\",\"Perception\",\"Survival\"]", "Rage", 15, null, null });
 
             migrationBuilder.InsertData(
                 table: "Conditions",
@@ -957,7 +874,7 @@ namespace DND5eAPI.Migrations
                     { 33, "Lawful Good", "God of courage and self-sacrifice", "War", "Torm" },
                     { 34, "Lawful Good", "God of justice", "War", "Tyr" },
                     { 35, "Chaotic Evil", "Goddess of the sea", "Tempest", "Umberlee" },
-                    { 36, "Neutral", "Goddess of trade", "Knowledge", "Waukeen" }
+                    { 36, "True Neutral", "Goddess of trade", "Knowledge", "Waukeen" }
                 });
 
             migrationBuilder.InsertData(
@@ -975,14 +892,14 @@ namespace DND5eAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "Id", "BackgroundId", "Description", "Name" },
+                columns: new[] { "Id", "BackgroundId", "Description", "Name", "PlayerCharacterId" },
                 values: new object[,]
                 {
-                    { 1, null, "The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.", "Common" },
-                    { 2, null, "A complex language of Elves, with a great deal of subtlety and intricate grammar. It is very easy to say the wrong thing just by putting emphasis on the wrong syllable in a word. It is a common language among bards.", "Elvish" },
-                    { 3, null, "The language of Dragons, Dragonborn, Kobold, and other related creatures. It is thought to be one of the oldest languages, and is often used in the study of magic. ", "Draconic" },
-                    { 4, null, "The language of Gnomes developed alongside dwarvish, though segued into its own complex language as gnomes became more technically minded.", "Gnomish" },
-                    { 5, null, "The language of Demons, Devils, and Monsters. Anyone who speaks it must have some amount of magical ability, as they are extremely difficult, if not impossible, to create some of the noises in the language with normal humanoid vocal cords.", "Infernal" }
+                    { 1, null, "The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.", "Common", null },
+                    { 2, null, "A complex language of Elves, with a great deal of subtlety and intricate grammar. It is very easy to say the wrong thing just by putting emphasis on the wrong syllable in a word. It is a common language among bards.", "Elvish", null },
+                    { 3, null, "The language of Dragons, Dragonborn, Kobold, and other related creatures. It is thought to be one of the oldest languages, and is often used in the study of magic. ", "Draconic", null },
+                    { 4, null, "The language of Gnomes developed alongside dwarvish, though segued into its own complex language as gnomes became more technically minded.", "Gnomish", null },
+                    { 5, null, "The language of Demons, Devils, and Monsters. Anyone who speaks it must have some amount of magical ability, as they are extremely difficult, if not impossible, to create some of the noises in the language with normal humanoid vocal cords.", "Infernal", null }
                 });
 
             migrationBuilder.InsertData(
@@ -998,27 +915,32 @@ namespace DND5eAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Spells",
-                columns: new[] { "Id", "BaseNumberOfCasts", "CanTargetSelf", "CastingTime", "Concentration", "Description", "Duration", "Effects", "IndexName", "IsRecurring", "IsRecurringOnMove", "IsRitual", "MaterialComponent", "MaterialComponentDescription", "Name", "PlayerCharacterId", "Range", "School", "SomaticComponent", "SpellSlotLevel", "SubclassId", "UpcastEffect", "UpgradeLevels", "VerbalComponent" },
+                columns: new[] { "Id", "BaseNumberOfCasts", "CanTargetSelf", "CastingTime", "Concentration", "Cooldown", "Description", "Duration", "Effects", "IndexName", "IsRecurring", "IsRecurringOnMove", "IsRitual", "MaterialComponent", "MaterialComponentDescription", "Name", "PlayerCharacterId", "Range", "School", "SomaticComponent", "SpellSlotLevel", "SubclassId", "UpcastEffect", "UpgradeLevels", "VerbalComponent" },
                 values: new object[,]
                 {
-                    { 1, 1, false, "1 action", false, "You hurl a beam of crackling energy. Make a ranged spell attack against one creature or object in range. On a hit, the target takes 1d10 Force damage. Cantrip Upgrade. The spell creates two beams at level 5, three beams at level 11, and four beams at level 17. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"force\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "eldritch-blast", false, false, false, false, null, "Eldritch Blast", null, "120 feet", "Evocation", true, 0, null, null, "[5,11,17]", true },
-                    { 2, 1, true, "1 bonus action", false, "A creature of your choice that you can see within range regains Hit Points equal to 2d4 plus your spellcasting ability modifier. Using a Higher-Level Spell Slot. The healing increases by 2d4 for each spell slot level above 1", "Instantaneous", "[{\"EffectType\":\"SpellHealingEffect\",\"Dice\":\"2d4\\u002B{sam}\",\"Amount\":0,\"IsTempHP\":false},{\"EffectType\":\"SpellCostEffect\",\"Action\":false,\"BonusAction\":true,\"Reaction\":false}]", "healing-word", false, false, false, false, null, "Healing Word", null, "60 feet", "Abjuration", false, 1, null, "2d4", null, true },
-                    { 3, 1, false, "1 action", true, "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.", "Concentration, up to 1 minute", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "hold-person", true, false, false, true, "a straight piece of iron", "Hold Person", null, "60 feet", "Enchantment", true, 2, null, "bnoc+1", null, true },
-                    { 4, 3, false, "1 action", false, "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage. Using a Higher-Level Spell Slot. You create one additional ray for each spell slot level above 2.", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "scorching-ray", false, false, false, false, null, "Scorching Ray", null, "120 feet", "Evocation", true, 2, null, "bnoc+1", null, true },
-                    { 5, 1, false, "1 action", false, "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren’t being worn or carried start burning.", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "fireball", false, false, false, true, "a ball of bat guano and sulfur", "Fireball", null, "150 feet", "Evocation", true, 3, null, "1d6", null, true }
+                    { 1, 1, false, "1 action", false, "None", "You hurl a beam of crackling energy. Make a ranged spell attack against one creature or object in range. On a hit, the target takes 1d10 Force damage. Cantrip Upgrade. The spell creates two beams at level 5, three beams at level 11, and four beams at level 17. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"force\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "eldritch-blast", false, false, false, false, null, "Eldritch Blast", null, "120 feet", "Evocation", true, 0, null, null, "[5,11,17]", true },
+                    { 2, 1, true, "1 bonus action", false, "None", "A creature of your choice that you can see within range regains Hit Points equal to 2d4 plus your spellcasting ability modifier. Using a Higher-Level Spell Slot. The healing increases by 2d4 for each spell slot level above 1", "Instantaneous", "[{\"EffectType\":\"SpellHealingEffect\",\"Dice\":\"2d4\\u002B{sam}\",\"Amount\":0,\"IsTempHP\":false},{\"EffectType\":\"SpellCostEffect\",\"Action\":false,\"BonusAction\":true,\"Reaction\":false}]", "healing-word", false, false, false, false, null, "Healing Word", null, "60 feet", "Abjuration", false, 1, null, "2d4", null, true },
+                    { 3, 1, false, "1 action", true, "None", "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.", "Concentration, up to 1 minute", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "hold-person", true, false, false, true, "a straight piece of iron", "Hold Person", null, "60 feet", "Enchantment", true, 2, null, "bnoc+1", null, true },
+                    { 4, 3, false, "1 action", false, "None", "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage. Using a Higher-Level Spell Slot. You create one additional ray for each spell slot level above 2.", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "scorching-ray", false, false, false, false, null, "Scorching Ray", null, "120 feet", "Evocation", true, 2, null, "bnoc+1", null, true },
+                    { 5, 1, false, "1 action", false, "None", "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren’t being worn or carried start burning.", "Instantaneous", "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]", "fireball", false, false, false, true, "a ball of bat guano and sulfur", "Fireball", null, "150 feet", "Evocation", true, 3, null, "1d6", null, true }
                 });
 
             migrationBuilder.InsertData(
                 table: "Tools",
-                columns: new[] { "Id", "Actions", "IndexName", "Name", "PlayerCharacterId" },
+                columns: new[] { "Id", "Actions", "IndexName", "Name" },
                 values: new object[,]
                 {
-                    { 1, "[{\"Name\":\"Identify a substance\",\"Attribute\":\"intelligence\",\"DC\":15},{\"Name\":\"Start a fire\",\"Attribute\":\"intelligence\",\"DC\":15}]", "alchemists-supplies", "Alchemist's Supplies", null },
-                    { 2, "[{\"Name\":\"Create a map\",\"Attribute\":\"wisdom\",\"DC\":15}]", "cartographers-tools", "Cartographer's Tools", null },
-                    { 3, "[{\"Name\":\"Improve food\\u0027s flavor\",\"Attribute\":\"wisdom\",\"DC\":10},{\"Name\":\"Detect spoiled or poisoned food\",\"Attribute\":\"wisdom\",\"DC\":15}]", "cooks-utensils", "Cook's Utensils", null },
-                    { 4, "[{\"Name\":\"Mimic 10 or fewer words of someone else\\u2019s handwriting\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Duplicate a wax seal\",\"Attribute\":\"dexterity\",\"DC\":20}]", "forgery-kit", "Forgery Kit", null },
-                    { 5, "[{\"Name\":\"Pick a lock\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Disarm a trap\",\"Attribute\":\"dexterity\",\"DC\":15}]", "thieves-tools", "Thieves's Tools", null }
+                    { 1, "[{\"Name\":\"Identify a substance\",\"Attribute\":\"intelligence\",\"DC\":15},{\"Name\":\"Start a fire\",\"Attribute\":\"intelligence\",\"DC\":15}]", "alchemists-supplies", "Alchemist's Supplies" },
+                    { 2, "[{\"Name\":\"Create a map\",\"Attribute\":\"wisdom\",\"DC\":15}]", "cartographers-tools", "Cartographer's Tools" },
+                    { 3, "[{\"Name\":\"Improve food\\u0027s flavor\",\"Attribute\":\"wisdom\",\"DC\":10},{\"Name\":\"Detect spoiled or poisoned food\",\"Attribute\":\"wisdom\",\"DC\":15}]", "cooks-utensils", "Cook's Utensils" },
+                    { 4, "[{\"Name\":\"Mimic 10 or fewer words of someone else\\u2019s handwriting\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Duplicate a wax seal\",\"Attribute\":\"dexterity\",\"DC\":20}]", "forgery-kit", "Forgery Kit" },
+                    { 5, "[{\"Name\":\"Pick a lock\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Disarm a trap\",\"Attribute\":\"dexterity\",\"DC\":15}]", "thieves-tools", "Thieves's Tools" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Traits",
+                columns: new[] { "Id", "Description", "Effects", "IndexName", "Name", "Requirement", "SubclassId", "SubraceId", "UnlockLevel" },
+                values: new object[] { 1, "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.", "[{\"EffectType\":\"ArmorClassEffect\",\"SetArmorClass\":false,\"ArmorClassModifier\":\"Constitution\"}]", "unarmored-defense", "Unarmored Defense", "wearsArmor=false", null, null, 1 });
 
             migrationBuilder.InsertData(
                 table: "WeaponTypes",
@@ -1074,6 +996,11 @@ namespace DND5eAPI.Migrations
                     { 3, "Wood elves carry the magic of primeval forests within themselves. They are known by many other names, including wild elves, green elves, and forest elves. Grugach are reclusive wood elves of the Greyhawk setting, while the Kagonesti and the Tairnadal are wood elves of the Dragonlance and Eberron settings, respectively.", "Wood Elf", 2 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "PlayerCharacters",
+                columns: new[] { "Id", "BackgroundId", "ClassId", "Level", "MaxHitPoints", "Name", "Notes", "Proficiencies", "RaceId", "SpecialPoints", "SubclassId", "SubraceId" },
+                values: new object[] { "a30d7a3c-561e-4ab9-bb96-2e0ee6f0f3b1", 1, 1, 1, 10, "Aria", "[]", "[]", 2, 1, null, 2 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Armors_ArmorTypeId",
                 table: "Armors",
@@ -1095,11 +1022,6 @@ namespace DND5eAPI.Migrations
                 column: "TraitsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ArmorTypeClass_ClassesId",
-                table: "ArmorTypeClass",
-                column: "ClassesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BackgroundEquipment_EquipmentId",
                 table: "BackgroundEquipment",
                 column: "EquipmentId");
@@ -1110,9 +1032,9 @@ namespace DND5eAPI.Migrations
                 column: "FeatsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BackgroundTool_ToolProficienciesId",
-                table: "BackgroundTool",
-                column: "ToolProficienciesId");
+                name: "IX_Backgrounds_ToolId",
+                table: "Backgrounds",
+                column: "ToolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BackgroundTrait_TraitsId",
@@ -1120,14 +1042,24 @@ namespace DND5eAPI.Migrations
                 column: "TraitsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_ArmorTypeId",
+                table: "Classes",
+                column: "ArmorTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classes_ToolId",
+                table: "Classes",
+                column: "ToolId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classes_WeaponTypeId",
+                table: "Classes",
+                column: "WeaponTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClassSpell_SpellsId",
                 table: "ClassSpell",
                 column: "SpellsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClassTool_ToolProficienciesId",
-                table: "ClassTool",
-                column: "ToolProficienciesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassTrait_TraitsId",
@@ -1135,9 +1067,9 @@ namespace DND5eAPI.Migrations
                 column: "TraitsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassWeaponType_WeaponProficienciesId",
-                table: "ClassWeaponType",
-                column: "WeaponProficienciesId");
+                name: "IX_Equipment_ClassId",
+                table: "Equipment",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Equipment_EquipmentCategoryId",
@@ -1168,6 +1100,11 @@ namespace DND5eAPI.Migrations
                 name: "IX_Languages_BackgroundId",
                 table: "Languages",
                 column: "BackgroundId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Languages_PlayerCharacterId",
+                table: "Languages",
+                column: "PlayerCharacterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerCharacters_BackgroundId",
@@ -1225,16 +1162,6 @@ namespace DND5eAPI.Migrations
                 column: "ParentRaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tools_PlayerCharacterId",
-                table: "Tools",
-                column: "PlayerCharacterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Traits_PlayerCharacterId",
-                table: "Traits",
-                column: "PlayerCharacterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Traits_SubclassId",
                 table: "Traits",
                 column: "SubclassId");
@@ -1275,16 +1202,10 @@ namespace DND5eAPI.Migrations
                 name: "ArmorTrait");
 
             migrationBuilder.DropTable(
-                name: "ArmorTypeClass");
-
-            migrationBuilder.DropTable(
                 name: "BackgroundEquipment");
 
             migrationBuilder.DropTable(
                 name: "BackgroundFeat");
-
-            migrationBuilder.DropTable(
-                name: "BackgroundTool");
 
             migrationBuilder.DropTable(
                 name: "BackgroundTrait");
@@ -1293,13 +1214,7 @@ namespace DND5eAPI.Migrations
                 name: "ClassSpell");
 
             migrationBuilder.DropTable(
-                name: "ClassTool");
-
-            migrationBuilder.DropTable(
                 name: "ClassTrait");
-
-            migrationBuilder.DropTable(
-                name: "ClassWeaponType");
 
             migrationBuilder.DropTable(
                 name: "Deities");
@@ -1329,9 +1244,6 @@ namespace DND5eAPI.Migrations
                 name: "Equipment");
 
             migrationBuilder.DropTable(
-                name: "Tools");
-
-            migrationBuilder.DropTable(
                 name: "Languages");
 
             migrationBuilder.DropTable(
@@ -1344,9 +1256,6 @@ namespace DND5eAPI.Migrations
                 name: "Weapons");
 
             migrationBuilder.DropTable(
-                name: "ArmorTypes");
-
-            migrationBuilder.DropTable(
                 name: "EquipmentCategories");
 
             migrationBuilder.DropTable(
@@ -1354,9 +1263,6 @@ namespace DND5eAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlayerCharacters");
-
-            migrationBuilder.DropTable(
-                name: "WeaponTypes");
 
             migrationBuilder.DropTable(
                 name: "Backgrounds");
@@ -1372,6 +1278,15 @@ namespace DND5eAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Races");
+
+            migrationBuilder.DropTable(
+                name: "ArmorTypes");
+
+            migrationBuilder.DropTable(
+                name: "Tools");
+
+            migrationBuilder.DropTable(
+                name: "WeaponTypes");
         }
     }
 }

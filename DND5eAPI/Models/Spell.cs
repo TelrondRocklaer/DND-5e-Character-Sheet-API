@@ -17,7 +17,7 @@ namespace DND5eAPI.Models
         public ICollection<Effect>? Effects { get; set; }
         public int SpellSlotLevel { get; set; }
         public string? UpcastEffect { get; set; }
-        public ICollection<int>? UpgradeLevels { get; set; }
+        public List<int>? UpgradeLevels { get; set; }
         public int BaseNumberOfCasts { get; set; }
         public string Range { get; set; }
         public bool VerbalComponent { get; set; }
@@ -27,6 +27,7 @@ namespace DND5eAPI.Models
         public string Duration { get; set; }
         public string CastingTime { get; set; }
         public bool IsRitual { get; set; }
+        public string Cooldown { get; set; }
         public bool Concentration { get; set; }    
         public bool IsRecurring { get; set; } // Do you need to make saving throws every round?
         public bool IsRecurringOnMove { get; set; } // Do you need to make saving throws every time you move?

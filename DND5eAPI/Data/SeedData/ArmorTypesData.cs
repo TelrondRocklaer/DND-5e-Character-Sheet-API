@@ -1,5 +1,4 @@
 ﻿using DND5eAPI.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DND5eAPI.Data.SeedData
 {

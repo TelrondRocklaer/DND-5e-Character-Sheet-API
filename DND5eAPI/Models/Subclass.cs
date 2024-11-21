@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -12,7 +13,9 @@ namespace DND5eAPI.Models
         //
         [ForeignKey("ClassId")]
         public Class Class { get; set; }
+        [JsonIgnore]
         public ICollection<Trait> Traits { get; set; }
+        [JsonIgnore]
         public ICollection<Spell> Spells { get; set; }
     }
 }

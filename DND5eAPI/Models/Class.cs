@@ -1,4 +1,4 @@
-﻿using DND5eAPI.Models.Extra.Effects;
+﻿using DND5eAPI.Models.Extra.Proficiencies;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -13,17 +13,15 @@ namespace DND5eAPI.Models
         public string Name { get; set; }
         public string PrimaryAbility { get; set; }
         public string HitDie { get; set; }
-        public ICollection<Effect> Effects { get; set; }
+        public string SpecialPointsName { get; set; }
         public int NumberOfSkillsToChoose { get; set; }
-        public ICollection<string> SkillProficiencyOptions { get; set; }
+        public List<string> SkillProficiencyOptions { get; set; }
         public int StartingGold { get; set; }
+        public ICollection<Proficiency> Proficiencies { get; set; }
 
         //
         public ICollection<Subclass> Subclasses { get; set; }
-        public ICollection<ArmorType> ArmorProficiencies { get; set; }
-        public ICollection<WeaponType> WeaponProficiencies { get; set; }
-        public ICollection<Tool> ToolProficiencies { get; set; }
-        [JsonIgnore]
+        public ICollection<Equipment> StartingEquipment { get; set; }
         public ICollection<Trait> Traits { get; set; }
         [JsonIgnore]
         public ICollection<Spell> Spells { get; set; }

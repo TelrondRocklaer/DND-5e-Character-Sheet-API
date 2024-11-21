@@ -16,8 +16,9 @@ namespace DND5eAPI
                 options.JsonSerializerOptions.Converters.Add(new EffectConverter());
             });
 
-            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddCors(options =>
             {
@@ -36,14 +37,9 @@ namespace DND5eAPI
 
             app.UseCors("CorsPolicy");
 
-            app.UseSwagger();
-
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "DnD 5e API");
-            });   
-
             app.MapControllers();
+
+            app.UseSwagger();
 
             app.Run();
         }

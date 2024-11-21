@@ -9,28 +9,20 @@ namespace DND5eAPI.Models.Extra
         {
             public string? Name { get; set; } = name;
             public int Value { get; set; } = 10;
-            public bool IsProficientInSavingThrows { get; set; } = false;
-            public bool HasAdvantageOnSavingThrows { get; set; } = false;
-            public bool HasDisadvantageOnSavingThrows { get; set; } = false;
-            public bool HasAdvantageOnChecks { get; set; } = false;
-            public bool HasDisadvantageOnChecks { get; set; } = false;
             public List<Skill> Skills { get; set; } = skills.Select(name => new Skill(name)).ToList();
             public class Skill(string name)
             {
                 public string Name { get; set; } = name;
-                public bool IsProficient { get; set; } = false;
-                public int AdvantageOnChecks { get; set; } = 0;
             }
-            public int Modifier => (Value - 10) / 2;
             public Skill this[string name] => Skills.FirstOrDefault(skill => skill.Name == name) ?? throw new ArgumentException($"Invalid skill name: {name}");
         }
 
-        Attribute Strength = new("Strength", ["Athletics"]);
-        Attribute Dexterity = new("Dexterity", ["Acrobatics", "Sleight of Hand", "Stealth"]);
-        Attribute Constitution = new("Constitution", []);
-        Attribute Intelligence = new("Intelligence", ["Arcana", "History", "Investigation", "Nature", "Religion"]);
-        Attribute Wisdom = new("Wisdom", ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"]);
-        Attribute Charisma = new("Charisma", ["Deception", "Intimidation", "Performance", "Persuasion"]);
+        public Attribute Strength = new("Strength", ["Athletics"]);
+        public Attribute Dexterity = new("Dexterity", ["Acrobatics", "Sleight of Hand", "Stealth"]);
+        public Attribute Constitution = new("Constitution", []);
+        public Attribute Intelligence = new("Intelligence", ["Arcana", "History", "Investigation", "Nature", "Religion"]);
+        public Attribute Wisdom = new("Wisdom", ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"]);
+        public Attribute Charisma = new("Charisma", ["Deception", "Intimidation", "Performance", "Persuasion"]);
 
         public static bool Exists(string name)
         {
@@ -42,7 +34,7 @@ namespace DND5eAPI.Models.Extra
             return false;
         }
 
-        public Attribute this[string name] => name switch
+        public Attribute this[string name] => name.ToLower() switch
         {
             "strength" => Strength,
             "dexterity" => Dexterity,

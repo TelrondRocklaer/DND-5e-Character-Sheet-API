@@ -17,7 +17,7 @@ namespace DND5eAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -52,21 +52,6 @@ namespace DND5eAPI.Migrations
                     b.ToTable("ArmorTrait");
                 });
 
-            modelBuilder.Entity("ArmorTypeClass", b =>
-                {
-                    b.Property<int>("ArmorProficienciesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArmorProficienciesId", "ClassesId");
-
-                    b.HasIndex("ClassesId");
-
-                    b.ToTable("ArmorTypeClass");
-                });
-
             modelBuilder.Entity("BackgroundEquipment", b =>
                 {
                     b.Property<int>("BackgroundsId")
@@ -95,21 +80,6 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("FeatsId");
 
                     b.ToTable("BackgroundFeat");
-                });
-
-            modelBuilder.Entity("BackgroundTool", b =>
-                {
-                    b.Property<int>("BackgroundsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToolProficienciesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BackgroundsId", "ToolProficienciesId");
-
-                    b.HasIndex("ToolProficienciesId");
-
-                    b.ToTable("BackgroundTool");
                 });
 
             modelBuilder.Entity("BackgroundTrait", b =>
@@ -142,21 +112,6 @@ namespace DND5eAPI.Migrations
                     b.ToTable("ClassSpell");
                 });
 
-            modelBuilder.Entity("ClassTool", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToolProficienciesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "ToolProficienciesId");
-
-                    b.HasIndex("ToolProficienciesId");
-
-                    b.ToTable("ClassTool");
-                });
-
             modelBuilder.Entity("ClassTrait", b =>
                 {
                     b.Property<int>("ClassesId")
@@ -170,21 +125,6 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("TraitsId");
 
                     b.ToTable("ClassTrait");
-                });
-
-            modelBuilder.Entity("ClassWeaponType", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeaponProficienciesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "WeaponProficienciesId");
-
-                    b.HasIndex("WeaponProficienciesId");
-
-                    b.ToTable("ClassWeaponType");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Armor", b =>
@@ -291,16 +231,31 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SkillProficiencies")
+                    b.Property<string>("Proficiencies")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("StartingGold")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("ToolId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ToolId");
+
                     b.ToTable("Backgrounds");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "You began training for war as soon as you reached adulthood and carry precious few memories of life before you took up arms. Battle is in your blood. Sometimes you catch yourself reflexively performing the basic fighting exercises you learned first. Eventually, you put that training to use on the battlefield, protecting the realm by waging war",
+                            Name = "Soldier",
+                            Proficiencies = "[{\"ProficiencyType\":\"SkillProficiency\"},{\"ProficiencyType\":\"SkillProficiency\"}]",
+                            StartingGold = 14L
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Class", b =>
@@ -311,9 +266,8 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Effects")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ArmorTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("HitDie")
                         .IsRequired()
@@ -330,16 +284,50 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Proficiencies")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SkillProficiencyOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpecialPointsName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StartingGold")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ToolId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WeaponTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ArmorTypeId");
+
+                    b.HasIndex("ToolId");
+
+                    b.HasIndex("WeaponTypeId");
+
                     b.ToTable("Classes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            HitDie = "d12",
+                            Name = "Barbarian",
+                            NumberOfSkillsToChoose = 2,
+                            PrimaryAbility = "Strength",
+                            Proficiencies = "[{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"SavingThrowProficiency\"},{\"ProficiencyType\":\"SavingThrowProficiency\"}]",
+                            SkillProficiencyOptions = "[\"Animal Handling\",\"Athletics\",\"Intimidation\",\"Nature\",\"Perception\",\"Survival\"]",
+                            SpecialPointsName = "Rage",
+                            StartingGold = 15
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Condition", b =>
@@ -786,7 +774,7 @@ namespace DND5eAPI.Migrations
                         new
                         {
                             Id = 36,
-                            Alignment = "Neutral",
+                            Alignment = "True Neutral",
                             Description = "Goddess of trade",
                             Domain = "Knowledge",
                             Name = "Waukeen"
@@ -800,6 +788,9 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Cost")
                         .HasColumnType("int");
@@ -829,6 +820,8 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.HasIndex("EquipmentCategoryId");
 
@@ -939,9 +932,14 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PlayerCharacterId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BackgroundId");
+
+                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Languages");
 
@@ -983,56 +981,11 @@ namespace DND5eAPI.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ArmorClass")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("AttackersHaveAdvantageOnAttackRolls")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AttackersHaveDisadvantageOnAttackRolls")
-                        .HasColumnType("bit");
-
                     b.Property<int>("BackgroundId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
-
-                    b.Property<int>("CurrentHitPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CurrentSpecialPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExhaustionLevel")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HasAdvantageOnAbilityChecks")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasAdvantageOnAttackRolls")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasAdvantageOnConcentrationSavingThrows")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasDisadvantageOnAbilityChecks")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasDisadvantageOnAttackRolls")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasDisadvantageOnConcentrationSavingThrows")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsConcentrating")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsShieldEquipped")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsThreataned")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -1040,21 +993,17 @@ namespace DND5eAPI.Migrations
                     b.Property<int>("MaxHitPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovementSpeed")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfActions")
-                        .HasColumnType("int");
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberOfBonusActions")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfReactions")
-                        .HasColumnType("int");
+                    b.Property<string>("Proficiencies")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RaceId")
                         .HasColumnType("int");
@@ -1062,26 +1011,11 @@ namespace DND5eAPI.Migrations
                     b.Property<int>("SpecialPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpellAttackRollBonus")
+                    b.Property<int?>("SubclassId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubclassId")
+                    b.Property<int?>("SubraceId")
                         .HasColumnType("int");
-
-                    b.Property<int>("SubraceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TemporaryHitPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeaponAttackRollBonus")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("WearsArmor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("WearsMetalArmor")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -1096,6 +1030,22 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("SubraceId");
 
                     b.ToTable("PlayerCharacters");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a30d7a3c-561e-4ab9-bb96-2e0ee6f0f3b1",
+                            BackgroundId = 1,
+                            ClassId = 1,
+                            Level = 1,
+                            MaxHitPoints = 10,
+                            Name = "Aria",
+                            Notes = "[]",
+                            Proficiencies = "[]",
+                            RaceId = 2,
+                            SpecialPoints = 1,
+                            SubraceId = 2
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Race", b =>
@@ -1189,6 +1139,10 @@ namespace DND5eAPI.Migrations
                     b.Property<bool>("Concentration")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Cooldown")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1268,6 +1222,7 @@ namespace DND5eAPI.Migrations
                             CanTargetSelf = false,
                             CastingTime = "1 action",
                             Concentration = false,
+                            Cooldown = "None",
                             Description = "You hurl a beam of crackling energy. Make a ranged spell attack against one creature or object in range. On a hit, the target takes 1d10 Force damage. Cantrip Upgrade. The spell creates two beams at level 5, three beams at level 11, and four beams at level 17. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam",
                             Duration = "Instantaneous",
                             Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"force\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
@@ -1291,6 +1246,7 @@ namespace DND5eAPI.Migrations
                             CanTargetSelf = true,
                             CastingTime = "1 bonus action",
                             Concentration = false,
+                            Cooldown = "None",
                             Description = "A creature of your choice that you can see within range regains Hit Points equal to 2d4 plus your spellcasting ability modifier. Using a Higher-Level Spell Slot. The healing increases by 2d4 for each spell slot level above 1",
                             Duration = "Instantaneous",
                             Effects = "[{\"EffectType\":\"SpellHealingEffect\",\"Dice\":\"2d4\\u002B{sam}\",\"Amount\":0,\"IsTempHP\":false},{\"EffectType\":\"SpellCostEffect\",\"Action\":false,\"BonusAction\":true,\"Reaction\":false}]",
@@ -1314,6 +1270,7 @@ namespace DND5eAPI.Migrations
                             CanTargetSelf = false,
                             CastingTime = "1 action",
                             Concentration = true,
+                            Cooldown = "None",
                             Description = "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.",
                             Duration = "Concentration, up to 1 minute",
                             Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
@@ -1338,6 +1295,7 @@ namespace DND5eAPI.Migrations
                             CanTargetSelf = false,
                             CastingTime = "1 action",
                             Concentration = false,
+                            Cooldown = "None",
                             Description = "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage. Using a Higher-Level Spell Slot. You create one additional ray for each spell slot level above 2.",
                             Duration = "Instantaneous",
                             Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
@@ -1361,6 +1319,7 @@ namespace DND5eAPI.Migrations
                             CanTargetSelf = false,
                             CastingTime = "1 action",
                             Concentration = false,
+                            Cooldown = "None",
                             Description = "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren’t being worn or carried start burning.",
                             Duration = "Instantaneous",
                             Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
@@ -1475,12 +1434,7 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Tools");
 
@@ -1545,9 +1499,6 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Requirement")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1558,15 +1509,28 @@ namespace DND5eAPI.Migrations
                     b.Property<int?>("SubraceId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UnlockLevel")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PlayerCharacterId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SubclassId");
 
                     b.HasIndex("SubraceId");
 
                     b.ToTable("Traits");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
+                            Effects = "[{\"EffectType\":\"ArmorClassEffect\",\"SetArmorClass\":false,\"ArmorClassModifier\":\"Constitution\"}]",
+                            IndexName = "unarmored-defense",
+                            Name = "Unarmored Defense",
+                            Requirement = "wearsArmor=false",
+                            UnlockLevel = 1
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Weapon", b =>
@@ -2173,21 +2137,6 @@ namespace DND5eAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ArmorTypeClass", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.ArmorType", null)
-                        .WithMany()
-                        .HasForeignKey("ArmorProficienciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BackgroundEquipment", b =>
                 {
                     b.HasOne("DND5eAPI.Models.Background", null)
@@ -2214,21 +2163,6 @@ namespace DND5eAPI.Migrations
                     b.HasOne("DND5eAPI.Models.Feat", null)
                         .WithMany()
                         .HasForeignKey("FeatsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BackgroundTool", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Background", null)
-                        .WithMany()
-                        .HasForeignKey("BackgroundsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Tool", null)
-                        .WithMany()
-                        .HasForeignKey("ToolProficienciesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2263,21 +2197,6 @@ namespace DND5eAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ClassTool", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Tool", null)
-                        .WithMany()
-                        .HasForeignKey("ToolProficienciesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ClassTrait", b =>
                 {
                     b.HasOne("DND5eAPI.Models.Class", null)
@@ -2289,21 +2208,6 @@ namespace DND5eAPI.Migrations
                     b.HasOne("DND5eAPI.Models.Trait", null)
                         .WithMany()
                         .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClassWeaponType", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.WeaponType", null)
-                        .WithMany()
-                        .HasForeignKey("WeaponProficienciesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2323,8 +2227,34 @@ namespace DND5eAPI.Migrations
                     b.Navigation("ArmorType");
                 });
 
+            modelBuilder.Entity("DND5eAPI.Models.Background", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.Tool", null)
+                        .WithMany("Backgrounds")
+                        .HasForeignKey("ToolId");
+                });
+
+            modelBuilder.Entity("DND5eAPI.Models.Class", b =>
+                {
+                    b.HasOne("DND5eAPI.Models.ArmorType", null)
+                        .WithMany("Classes")
+                        .HasForeignKey("ArmorTypeId");
+
+                    b.HasOne("DND5eAPI.Models.Tool", null)
+                        .WithMany("Classes")
+                        .HasForeignKey("ToolId");
+
+                    b.HasOne("DND5eAPI.Models.WeaponType", null)
+                        .WithMany("Classes")
+                        .HasForeignKey("WeaponTypeId");
+                });
+
             modelBuilder.Entity("DND5eAPI.Models.Equipment", b =>
                 {
+                    b.HasOne("DND5eAPI.Models.Class", null)
+                        .WithMany("StartingEquipment")
+                        .HasForeignKey("ClassId");
+
                     b.HasOne("DND5eAPI.Models.EquipmentCategory", "EquipmentCategory")
                         .WithMany("Equipment")
                         .HasForeignKey("EquipmentCategoryId")
@@ -2350,6 +2280,10 @@ namespace DND5eAPI.Migrations
                     b.HasOne("DND5eAPI.Models.Background", null)
                         .WithMany("Languages")
                         .HasForeignKey("BackgroundId");
+
+                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
+                        .WithMany("Languages")
+                        .HasForeignKey("PlayerCharacterId");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
@@ -2374,15 +2308,11 @@ namespace DND5eAPI.Migrations
 
                     b.HasOne("DND5eAPI.Models.Subclass", "Subclass")
                         .WithMany()
-                        .HasForeignKey("SubclassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubclassId");
 
                     b.HasOne("DND5eAPI.Models.Subrace", "Subrace")
                         .WithMany()
-                        .HasForeignKey("SubraceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubraceId");
 
                     b.Navigation("Background");
 
@@ -2428,19 +2358,8 @@ namespace DND5eAPI.Migrations
                     b.Navigation("ParentRace");
                 });
 
-            modelBuilder.Entity("DND5eAPI.Models.Tool", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("ToolProficiencies")
-                        .HasForeignKey("PlayerCharacterId");
-                });
-
             modelBuilder.Entity("DND5eAPI.Models.Trait", b =>
                 {
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("Traits")
-                        .HasForeignKey("PlayerCharacterId");
-
                     b.HasOne("DND5eAPI.Models.Subclass", null)
                         .WithMany("Traits")
                         .HasForeignKey("SubclassId");
@@ -2547,6 +2466,8 @@ namespace DND5eAPI.Migrations
             modelBuilder.Entity("DND5eAPI.Models.ArmorType", b =>
                 {
                     b.Navigation("Armors");
+
+                    b.Navigation("Classes");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Background", b =>
@@ -2556,6 +2477,8 @@ namespace DND5eAPI.Migrations
 
             modelBuilder.Entity("DND5eAPI.Models.Class", b =>
                 {
+                    b.Navigation("StartingEquipment");
+
                     b.Navigation("Subclasses");
                 });
 
@@ -2579,11 +2502,9 @@ namespace DND5eAPI.Migrations
 
                     b.Navigation("Inventory");
 
+                    b.Navigation("Languages");
+
                     b.Navigation("Spells");
-
-                    b.Navigation("ToolProficiencies");
-
-                    b.Navigation("Traits");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Subclass", b =>
@@ -2598,8 +2519,17 @@ namespace DND5eAPI.Migrations
                     b.Navigation("Traits");
                 });
 
+            modelBuilder.Entity("DND5eAPI.Models.Tool", b =>
+                {
+                    b.Navigation("Backgrounds");
+
+                    b.Navigation("Classes");
+                });
+
             modelBuilder.Entity("DND5eAPI.Models.WeaponType", b =>
                 {
+                    b.Navigation("Classes");
+
                     b.Navigation("Weapons");
                 });
 #pragma warning restore 612, 618

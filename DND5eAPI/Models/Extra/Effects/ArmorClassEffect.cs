@@ -4,14 +4,10 @@
     {
         public override string EffectType => "ArmorClassEffect";
         public bool SetArmorClass { get; set; }
-        public int ArmorClassModifier { get; set; }
+        public string ArmorClassModifier { get; set; }
 
-        public ArmorClassEffect(bool setArmorClass = false, int armorClassModifier = 0)
+        public ArmorClassEffect(bool setArmorClass = false, string armorClassModifier = "0")
         {
-            if (setArmorClass && armorClassModifier < 0)
-            {
-                throw new ArgumentException("Armor class modifier must be greater than or equal to 0");
-            }
             SetArmorClass = setArmorClass;
             ArmorClassModifier = armorClassModifier;
         }

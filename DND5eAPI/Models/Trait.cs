@@ -15,6 +15,7 @@ namespace DND5eAPI.Models
         public string Description { get; set; }
         public ICollection<Effect>? Effects { get; set; }
         public string Requirement { get; set; }
+        public int UnlockLevel { get; set; }
 
         //
         [JsonIgnore]
