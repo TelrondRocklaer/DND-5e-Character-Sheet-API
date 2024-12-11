@@ -2,11 +2,11 @@
 {
     public class ExtraWeaponDamageEffect : Effect
     {
-        public override string EffectType => "ExtraWeaponDamageEffect";
-
         public string DamageType { get; set; }
         public string? DamageDie { get; set; }
         public int? DamageBonus { get; set; }
+
+        public ExtraWeaponDamageEffect() { }
 
         public ExtraWeaponDamageEffect(string damageType, string? damageDie = null, int? damageBonus = null)
         {

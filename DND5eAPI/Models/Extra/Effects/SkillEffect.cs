@@ -2,11 +2,12 @@
 {
     public class SkillEffect : Effect
     {
-        public override string EffectType => "SkillEffect";
         public string AttributeName { get; set; }
         public string SkillName { get; set; }
         public bool? AddOrRemoveProficiency { get; set; } = null;
         public bool? HasAdvantageOrDisadvantageOnChecks { get; set; } = null;
+
+        public SkillEffect() { }
 
         public SkillEffect(string attributeName, string skillName, bool? addOrRemoveProficiency = null, bool? hasAdvantageOrDisadvantageOnChecks = null)
         {

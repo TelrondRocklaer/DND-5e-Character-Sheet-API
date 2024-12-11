@@ -5,13 +5,14 @@ namespace DND5eAPI.Models.Extra.Effects
     [NotMapped]
     public class SpellAttackEffect : Effect
     {
-        public override string EffectType => "SpellAttackEffect";
         public string? Dice { get; set; }
         public bool IsAttackRoll { get; set; }
         public string? DamageType { get; set; }
         public string? SavingThrowAttribute { get; set; }
         public int? SavingThrowDC { get; set; }
         public string? SavingThrowSuccessEffect { get; set; } // half-damage, no-damage, negate-effect
+
+        public SpellAttackEffect() { }
 
         public SpellAttackEffect(string? dice = null, bool isAttackRoll = false, string? damageType = null, string? savingThrowAttribute = null, int? savingThrowDC = null, string? savingThrowSuccessEffect = null)
         {

@@ -2,9 +2,8 @@
 {
     public class AbilityCheckEffect : Effect
     {
-        public override string EffectType => "AbilityCheckEffect";
-
         public bool? HasAdvantageOrDisadvantage { get; set; }
+        public AbilityCheckEffect() { }
 
         public AbilityCheckEffect(bool? hasAdvantageOrDisadvantage = null)
         {

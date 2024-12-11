@@ -12,7 +12,6 @@ namespace DND5eAPI.Data.SeedData
             PrimaryAbility = "Strength",
             HitDie = "d12",
             SpecialPointsName = "Rage",
-            NumberOfSkillsToChoose = 2,
             SkillProficiencyOptions = ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"],
             StartingGold = 15,
             Proficiencies = 
@@ -27,9 +26,39 @@ namespace DND5eAPI.Data.SeedData
             ]
         };
 
+        public static readonly Class Wizard = new()
+        {
+            Id = 2,
+            Name = "Wizard",
+            PrimaryAbility = "Intelligence",
+            HitDie = "d6",
+            SpecialPointsName = "Arcane Recovery",
+            SkillProficiencyOptions = ["Arcana", "History", "Insight", "Investigation", "Medicine", "Nature", "Religion"],
+            StartingGold = 5,
+            Proficiencies =
+            [
+                new ProficiencyGroup("Simple Weapons"),
+                new SavingThrowProficiency("Intelligence"),
+                new SavingThrowProficiency("Wisdom"),
+            ],
+            StartingEquipment =
+            [
+                EquipmentData.Spellbook,
+            ],
+            Spells =
+            [
+                SpellsData.RayOfFrost,
+                SpellsData.Firebolt,
+                SpellsData.Fireball,
+                SpellsData.ScorchingRay,
+                SpellsData.HoldPerson
+            ]
+        };
+
         public static Class[] Classes =
         [
-            Barbarian
+            Barbarian,
+            Wizard
         ];
     }
 }

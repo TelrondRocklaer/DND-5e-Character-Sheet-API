@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DND5eAPI.Data;
-using DND5eAPI.Utilities;
+
 namespace DND5eAPI
 {
     public class Program
@@ -11,12 +11,9 @@ namespace DND5eAPI
             builder.Services.AddDbContext<ApiDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ApiDbContext") ?? throw new InvalidOperationException("Connection string 'ApiDbContext' not found.")));
 
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.Converters.Add(new EffectConverter());
-            });
-
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
 
@@ -32,8 +29,6 @@ namespace DND5eAPI
             var app = builder.Build();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseCors("CorsPolicy");
 

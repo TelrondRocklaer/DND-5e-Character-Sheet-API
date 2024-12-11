@@ -2,10 +2,15 @@
 
 namespace DND5eAPI.Models.Extra.Proficiencies
 {
-    public class ToolProficiency(string toolName) : Proficiency
+    public class ToolProficiency : Proficiency
     {
-        public override string ProficiencyType => "ToolProficiency";
+        public int ToolId { get; set; }
 
-        public int ToolId { get; set; } = ToolsData.Tools.FirstOrDefault(t => t.Name == toolName)!.Id;
+        public ToolProficiency() { }
+
+        public ToolProficiency(string toolName)
+        {
+            ToolId = ToolsData.Tools.FirstOrDefault(t => t.Name == toolName)!.Id;
+        }
     }
 }

@@ -2,12 +2,12 @@
 {
     public class AttackRollEffect : Effect
     {
-        public override string EffectType => "AttackRollEffect";
-
         public bool? HasAdvantageOrDisadvantage { get; set; }
         public bool? AttackersHaveAdvantageOrDisadvantage { get; set; }
         public int SpellAttackRollBonusModifier { get; set; }
         public int WeaponAttackRollBonusModifier { get; set; }
+
+        public AttackRollEffect() { }
 
         public AttackRollEffect(bool? hasAdvantageOrDisadvantage = null, bool? attackersHaveAdvantageOrDisadvantage = null, int spellAttackRollBonusModifier = 0, int weaponAttackRollBonusModifier = 0)
         {

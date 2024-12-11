@@ -2,9 +2,15 @@
 
 namespace DND5eAPI.Models.Extra.Proficiencies
 {
-    public class WeaponProficiency(string weaponType) : Proficiency
+    public class WeaponProficiency : Proficiency
     {
-        public override string ProficiencyType => "WeaponProficiency";
-        public int WeaponTypeId { get; set; } = WeaponTypesData.WeaponTypes.FirstOrDefault(wt => wt.Name == weaponType)!.Id;
+        public int WeaponTypeId { get; set; }
+
+        public WeaponProficiency() { }
+
+        public WeaponProficiency(string weaponType)
+        {
+            WeaponTypeId = WeaponTypesData.WeaponTypes.FirstOrDefault(wt => wt.Name == weaponType)!.Id;
+        }
     }
 }

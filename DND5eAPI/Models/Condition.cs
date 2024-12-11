@@ -16,6 +16,6 @@ namespace DND5eAPI.Models
 
         //
         [JsonIgnore]
-        public ICollection<Weapon> Weapons { get; set; }
+        public ICollection<Weapon>? Weapons { get; set; }
     }
 }

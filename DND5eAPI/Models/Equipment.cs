@@ -22,8 +22,8 @@ namespace DND5eAPI.Models
         [ForeignKey("EquipmentCategoryId")]
         public EquipmentCategory EquipmentCategory { get; set; }
         [JsonIgnore]
-        public List<Background> Backgrounds { get; set; }
+        public ICollection<Background>? Backgrounds { get; set; }
         [JsonIgnore]
-        public List<Tool> Tools { get; set; }
+        public ICollection<Tool>? Tools { get; set; }
     }
 }

@@ -16,8 +16,7 @@ namespace DND5eAPI.Models
         public int BaseMovementSpeed { get; set; }
 
         //
-        [JsonIgnore]
-        public List<Trait> Traits { get; set; }
-        public List<Language> Languages { get; set; }
+        public ICollection<Trait>? Traits { get; set; }
+        public ICollection<Language>? Languages { get; set; }
     }
 }

@@ -1,9 +1,14 @@
 ﻿namespace DND5eAPI.Models.Extra.Proficiencies
 {
-    public class SkillProficiency(string attributeName, string skillName) : Proficiency
+    public class SkillProficiency : Proficiency
     {
-        public override string ProficiencyType => "SkillProficiency";
+        public string SkillName { get; set; }
 
-        public string SkillName { get; set; } = new Attributes()[attributeName][skillName].Name;
+        public SkillProficiency() { }
+
+        public SkillProficiency(string attributeName, string skillName)
+        {
+            SkillName = new Attributes()[attributeName][skillName].Name;
+        }
     }
 }

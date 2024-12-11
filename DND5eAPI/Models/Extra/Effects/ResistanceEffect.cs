@@ -2,11 +2,12 @@
 {
     public class ResistanceEffect : Effect
     {
-        public override string EffectType => "ResistanceEffect";
         public string DamageType { get; set; }
         public bool IsVulnerable { get; set; }
         public bool IsResistant { get; set; }
-        public bool IsImmune { get; set; } 
+        public bool IsImmune { get; set; }
+
+        public ResistanceEffect() { }
 
         public ResistanceEffect(string damageType, bool isVulnerable = false, bool isResistant = false, bool isImmune = false)
         {

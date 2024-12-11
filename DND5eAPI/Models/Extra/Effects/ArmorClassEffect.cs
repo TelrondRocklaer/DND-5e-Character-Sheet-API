@@ -2,9 +2,10 @@
 {
     public class ArmorClassEffect : Effect
     {
-        public override string EffectType => "ArmorClassEffect";
         public bool SetArmorClass { get; set; }
         public string ArmorClassModifier { get; set; }
+
+        public ArmorClassEffect() { }
 
         public ArmorClassEffect(bool setArmorClass = false, string armorClassModifier = "0")
         {

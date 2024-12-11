@@ -33,10 +33,10 @@ namespace DND5eAPI.Models
         public bool IsRecurringOnMove { get; set; } // Do you need to make saving throws every time you move?
         public string School { get; set; }
         //
-        public ICollection<Class> Classes { get; set; }
+        public ICollection<Class>? Classes { get; set; }
         [JsonIgnore]
-        public ICollection<Weapon> Weapons { get; set; }
+        public ICollection<Weapon>? Weapons { get; set; }
         [JsonIgnore]
-        public ICollection<Armor> Armors { get; set; }
+        public ICollection<Armor>? Armors { get; set; }
     }
 }

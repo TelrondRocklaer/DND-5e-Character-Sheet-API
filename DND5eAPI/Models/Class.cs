@@ -14,16 +14,16 @@ namespace DND5eAPI.Models
         public string PrimaryAbility { get; set; }
         public string HitDie { get; set; }
         public string SpecialPointsName { get; set; }
-        public int NumberOfSkillsToChoose { get; set; }
         public List<string> SkillProficiencyOptions { get; set; }
         public int StartingGold { get; set; }
         public ICollection<Proficiency> Proficiencies { get; set; }
 
         //
-        public ICollection<Subclass> Subclasses { get; set; }
-        public ICollection<Equipment> StartingEquipment { get; set; }
-        public ICollection<Trait> Traits { get; set; }
         [JsonIgnore]
-        public ICollection<Spell> Spells { get; set; }
+        public ICollection<Subclass>? Subclasses { get; set; }
+        public ICollection<Equipment>? StartingEquipment { get; set; }
+        public ICollection<Trait>? Traits { get; set; }
+        [JsonIgnore]
+        public ICollection<Spell>? Spells { get; set; }
     }
 }

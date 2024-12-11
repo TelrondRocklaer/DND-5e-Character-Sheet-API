@@ -19,14 +19,14 @@ namespace DND5eAPI.Models
 
         //
         [JsonIgnore]
-        public ICollection<Race> Races { get; set; }
+        public ICollection<Race>? Races { get; set; }
         [JsonIgnore]
-        public ICollection<Weapon> Weapons { get; set; }
+        public ICollection<Weapon>? Weapons { get; set; }
         [JsonIgnore]
-        public ICollection<Armor> Armors { get; set; }
+        public ICollection<Armor>? Armors { get; set; }
         [JsonIgnore]
-        public ICollection<Background> Backgrounds { get; set; }
+        public ICollection<Background>? Backgrounds { get; set; }
         [JsonIgnore]
-        public ICollection<Class> Classes { get; set; }
+        public ICollection<Class>? Classes { get; set; }
     }
 }

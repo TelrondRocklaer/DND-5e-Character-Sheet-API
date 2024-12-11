@@ -2,10 +2,15 @@
 
 namespace DND5eAPI.Models.Extra.Proficiencies
 {
-    public class ArmorProficiency(string armorType) : Proficiency
+    public class ArmorProficiency : Proficiency
     {
-        public override string ProficiencyType => "ArmorProficiency";
+        public int ArmorTypeId { get; set; }
 
-        public int ArmorTypeId { get; set; } = ArmorTypesData.ArmorTypes.FirstOrDefault(at => at.Name == armorType)!.Id;
+        public ArmorProficiency() { }
+
+        public ArmorProficiency(string armorType)
+        {
+            ArmorTypeId = ArmorTypesData.ArmorTypes.FirstOrDefault(at => at.Name == armorType)!.Id;
+        }
     }
 }

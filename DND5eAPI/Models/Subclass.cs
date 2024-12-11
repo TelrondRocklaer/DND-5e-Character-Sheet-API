@@ -14,8 +14,8 @@ namespace DND5eAPI.Models
         [ForeignKey("ClassId")]
         public Class Class { get; set; }
         [JsonIgnore]
-        public ICollection<Trait> Traits { get; set; }
+        public ICollection<Trait>? Traits { get; set; }
         [JsonIgnore]
-        public ICollection<Spell> Spells { get; set; }
+        public ICollection<Spell>? Spells { get; set; }
     }
 }

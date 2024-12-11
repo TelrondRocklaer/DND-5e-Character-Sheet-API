@@ -13,8 +13,8 @@ namespace DND5eAPI.Models
 
         //
         [JsonIgnore]
-        public List<Armor> Armors { get; set; }
+        public ICollection<Armor>? Armors { get; set; }
         [JsonIgnore]
-        public List<Class> Classes { get; set; }
+        public ICollection<Class>? Classes { get; set; }
     }
 }

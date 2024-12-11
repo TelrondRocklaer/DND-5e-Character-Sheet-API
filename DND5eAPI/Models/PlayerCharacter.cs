@@ -17,7 +17,7 @@ namespace DND5eAPI.Models
         public List<SpellSlotDataNode>? SpellSlots { get; set; }
         public Attributes Attributes { get; set; }
         public ICollection<Proficiency> Proficiencies { get; set; }
-        public List<Note> Notes { get; set; }
+        public List<Note>? Notes { get; set; }
 
         //
         public int RaceId { get; set; }
@@ -40,11 +40,11 @@ namespace DND5eAPI.Models
         [ForeignKey("BackgroundId")]
         public Background Background { get; set; }
 
-        public ICollection<Feat> Feats { get; set; }
-        public ICollection<Equipment> Inventory { get; set; }
-        public ICollection<Armor> EquipedArmor { get; set; }
-        public ICollection<Weapon> EquipedWeapons { get; set; }
-        public ICollection<Spell> Spells { get; set; }
-        public ICollection<Language> Languages { get; set; }
+        public ICollection<Feat>? Feats { get; set; }
+        public ICollection<Equipment>? Inventory { get; set; }
+        public ICollection<Armor>? EquipedArmor { get; set; }
+        public ICollection<Weapon>? EquipedWeapons { get; set; }
+        public ICollection<Spell>? Spells { get; set; }
+        public ICollection<Language>? Languages { get; set; }
     }
 }

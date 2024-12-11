@@ -2,11 +2,12 @@
 {
     public class OtherCharacterEffect : Effect
     {
-        public override string EffectType => "OtherCharacterEffect";
         public int MovementSpeedModifier { get; set; }
         public int SpecialPointsModifier { get; set; }
         public (int level, int modifier) SpellSlotModifier { get; set; }
         public bool? HasAdvantageOrDisadvantageOnConcentrationSavingThrows { get; set; }
+
+        public OtherCharacterEffect() { }
 
         public OtherCharacterEffect(int movementSpeedModifier = 0, int specialPointsModifier = 0, (int level, int modifier)? spellSlotModifier = null,
             bool? hasAdvantageOrDisadvantageOnConcentrationSavingThrows = null)

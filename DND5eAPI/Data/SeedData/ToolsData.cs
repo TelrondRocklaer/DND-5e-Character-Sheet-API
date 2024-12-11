@@ -54,12 +54,22 @@ namespace DND5eAPI.Data.SeedData
                        new ToolAction("Disarm a trap", "dexterity", 15)]
         };
 
+        public static readonly Tool CalligraphersSupplies = new()
+        {
+            Id = 6,
+            Name = "Calligrapher's Supplies",
+            IndexName = "calligraphers-supplies",
+            CraftableItems = [],
+            Actions = [new ToolAction("Write text with impressive flourishes that guard against forgery", "dexterity", 15)]
+        };
+
         public static Tool[] Tools = [
             AlchemistsSupplies, 
             CartographerTools, 
             CooksUtensils, 
             ForgeryKit, 
-            ThievesTools
+            ThievesTools,
+            CalligraphersSupplies
         ];
     }
 }

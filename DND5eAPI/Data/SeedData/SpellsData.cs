@@ -69,7 +69,7 @@ namespace DND5eAPI.Data.SeedData
             Effects = [new SpellAttackEffect(savingThrowAttribute: "Wisdom", savingThrowDC: -1, savingThrowSuccessEffect: "negate-effect"), 
                        new ConditionEffect(ConditionsData.Paralyzed), new SpellCostEffect(action: true)],
             SpellSlotLevel = 2,
-            UpcastEffect = "bnoc+1", // bnof - base number of casts
+            UpcastEffect = "bnoc+1", // bnoc - base number of casts
             UpgradeLevels = null,
             BaseNumberOfCasts = 1,
             Range = "60 feet",
@@ -141,12 +141,69 @@ namespace DND5eAPI.Data.SeedData
             School = "Evocation"
         };
 
+        public static readonly Spell RayOfFrost = new()
+        {
+            Id = 6,
+            Name = "Ray of Frost",
+            IndexName = "ray-of-frost",
+            Description = "A frigid beam of blue-white light streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 1d8 Cold damage, and its Speed is reduced by 10 feet until the start of your next turn.",
+            CanTargetSelf = false,
+            Effects = [new SpellAttackEffect("1d8", true, "cold"), new SpellCostEffect(action: true)],
+            SpellSlotLevel = 0,
+            UpcastEffect = null,
+            UpgradeLevels = [5, 11, 17],
+            BaseNumberOfCasts = 1,
+            Range = "60 feet",
+            VerbalComponent = true,
+            SomaticComponent = true,
+            MaterialComponent = false,
+            MaterialComponentDescription = null,
+            Duration = "Instantaneous",
+            CastingTime = "1 action",
+            IsRitual = false,
+            Cooldown = "None",
+            Concentration = false,
+            IsRecurring = false,
+            IsRecurringOnMove = false,
+            School = "Evocation"    
+        };
+
+        public static readonly Spell Firebolt = new()
+        {
+            Id = 7,
+            Name = "Fire bolt",
+            IndexName = "fire-bolt",
+            Description = "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn’t being worn or carried.",
+            CanTargetSelf = false,
+            Effects = [new SpellAttackEffect("1d10", true, "fire"), new SpellCostEffect(action: true)],
+            SpellSlotLevel = 0,
+            UpcastEffect = null,
+            UpgradeLevels = [5, 11, 17],
+            BaseNumberOfCasts = 1,
+            Range = "120 feet",
+            VerbalComponent = true,
+            SomaticComponent = true,
+            MaterialComponent = false,
+            MaterialComponentDescription = null,
+            Duration = "Instantaneous",
+            CastingTime = "1 action",
+            IsRitual = false,
+            Cooldown = "None",
+            Concentration = false,
+            IsRecurring = false,
+            IsRecurringOnMove = false,
+            School = "Evocation"
+        };
+
+
         public static Spell[] Spells = [
             EldritchBlast, 
             HealingWord, 
             HoldPerson,
             ScorchingRay,
-            Fireball
+            Fireball,
+            RayOfFrost,
+            Firebolt
         ];
     }
 }

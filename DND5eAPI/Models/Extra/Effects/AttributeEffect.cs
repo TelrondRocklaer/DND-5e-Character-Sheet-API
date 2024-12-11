@@ -2,7 +2,6 @@
 {
     public class AttributeEffect : Effect
     {
-        public override string EffectType => "AttributeEffect";
         public string TargetAttribute { get; set; }
         public bool SetAttribute { get; set; }
         public int Modifier { get; set; }
@@ -10,6 +9,8 @@
         public bool? HasAdvantageOrDisadvantageOnSavingThrows { get; set; }
         public bool? HasAdvantageOrDisadvantageOnAbilityChecks { get; set; }
         public bool? AutomaticallySucceedsOnSavingThrows { get; set; }
+
+        public AttributeEffect() { }
 
         public AttributeEffect(string targetAttribute, bool setAttribute = false, int modifier = 0, bool? addOrRemoveProficiencyInSavingThrows = null, 
             bool? hasAdvantageOrDisadvantageOnSavingThrows = null, bool? hasAdvantageOrDisadvantageOnAbilityChecks = null, bool? automaticallySucceedsOnSavingThrows = null)

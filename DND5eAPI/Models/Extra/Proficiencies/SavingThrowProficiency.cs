@@ -1,9 +1,14 @@
 ﻿namespace DND5eAPI.Models.Extra.Proficiencies
 {
-    public class SavingThrowProficiency(string attributeName) : Proficiency
+    public class SavingThrowProficiency : Proficiency
     {
-        public override string ProficiencyType => "SavingThrowProficiency";
+        public string Ability { get; set; }
 
-        public string Ability { get; set; } = new Attributes()[attributeName].Name!;
+        public SavingThrowProficiency() { }
+
+        public SavingThrowProficiency(string attributeName)
+        {
+            Ability = new Attributes()[attributeName].Name!;
+        }
     }
 }

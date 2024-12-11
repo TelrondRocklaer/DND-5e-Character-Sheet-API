@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DND5eAPI.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20241121074419_Init")]
+    [Migration("20241209133402_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,111 +24,6 @@ namespace DND5eAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ArmorSpell", b =>
-                {
-                    b.Property<int>("ArmorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpellsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArmorsId", "SpellsId");
-
-                    b.HasIndex("SpellsId");
-
-                    b.ToTable("ArmorSpell");
-                });
-
-            modelBuilder.Entity("ArmorTrait", b =>
-                {
-                    b.Property<int>("ArmorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TraitsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ArmorsId", "TraitsId");
-
-                    b.HasIndex("TraitsId");
-
-                    b.ToTable("ArmorTrait");
-                });
-
-            modelBuilder.Entity("BackgroundEquipment", b =>
-                {
-                    b.Property<int>("BackgroundsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BackgroundsId", "EquipmentId");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("BackgroundEquipment");
-                });
-
-            modelBuilder.Entity("BackgroundFeat", b =>
-                {
-                    b.Property<int>("BackgroundsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FeatsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BackgroundsId", "FeatsId");
-
-                    b.HasIndex("FeatsId");
-
-                    b.ToTable("BackgroundFeat");
-                });
-
-            modelBuilder.Entity("BackgroundTrait", b =>
-                {
-                    b.Property<int>("BackgroundsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TraitsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BackgroundsId", "TraitsId");
-
-                    b.HasIndex("TraitsId");
-
-                    b.ToTable("BackgroundTrait");
-                });
-
-            modelBuilder.Entity("ClassSpell", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpellsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "SpellsId");
-
-                    b.HasIndex("SpellsId");
-
-                    b.ToTable("ClassSpell");
-                });
-
-            modelBuilder.Entity("ClassTrait", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TraitsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "TraitsId");
-
-                    b.HasIndex("TraitsId");
-
-                    b.ToTable("ClassTrait");
-                });
 
             modelBuilder.Entity("DND5eAPI.Models.Armor", b =>
                 {
@@ -142,6 +37,9 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("BaseArmorClass")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cost")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -159,8 +57,11 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Spells")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Traits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
                         .HasColumnType("float");
@@ -168,8 +69,6 @@ namespace DND5eAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ArmorTypeId");
-
-                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Armors");
                 });
@@ -181,6 +80,12 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Armors")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Classes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -230,6 +135,12 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Equipment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Feats")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -241,12 +152,10 @@ namespace DND5eAPI.Migrations
                     b.Property<long>("StartingGold")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("ToolId")
-                        .HasColumnType("int");
+                    b.Property<string>("Traits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ToolId");
 
                     b.ToTable("Backgrounds");
 
@@ -256,8 +165,17 @@ namespace DND5eAPI.Migrations
                             Id = 1,
                             Description = "You began training for war as soon as you reached adulthood and carry precious few memories of life before you took up arms. Battle is in your blood. Sometimes you catch yourself reflexively performing the basic fighting exercises you learned first. Eventually, you put that training to use on the battlefield, protecting the realm by waging war",
                             Name = "Soldier",
-                            Proficiencies = "[{\"ProficiencyType\":\"SkillProficiency\"},{\"ProficiencyType\":\"SkillProficiency\"}]",
+                            Proficiencies = "[{\"$type\":\"SkillProficiency\",\"SkillName\":\"Athletics\"},{\"$type\":\"SkillProficiency\",\"SkillName\":\"Intimidation\"}]",
                             StartingGold = 14L
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "You spent your formative years traveling between manors and monasteries, performing various odd jobs and services in exchange for access to their libraries. You whiled away many a long evening studying books and scrolls, learning the lore of the multiverse—even the rudiments of magic—and your mind yearns for more.",
+                            Equipment = "[{\"Id\":2,\"Name\":\"Parchment\",\"IndexName\":\"parchment\",\"Cost\":1,\"Weight\":0,\"Description\":\"One sheet of Parchment can hold about 250 handwritten words.\",\"EquipmentCategoryId\":5,\"Effects\":null,\"EquipmentCategory\":null}]",
+                            Name = "Sage",
+                            Proficiencies = "[{\"$type\":\"SkillProficiency\",\"SkillName\":\"Arcana\"},{\"$type\":\"SkillProficiency\",\"SkillName\":\"History\"},{\"$type\":\"ToolProficiency\",\"ToolId\":6}]",
+                            StartingGold = 8L
                         });
                 });
 
@@ -269,9 +187,6 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArmorTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("HitDie")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -279,9 +194,6 @@ namespace DND5eAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberOfSkillsToChoose")
-                        .HasColumnType("int");
 
                     b.Property<string>("PrimaryAbility")
                         .IsRequired()
@@ -299,22 +211,22 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Spells")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartingEquipment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StartingGold")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ToolId")
-                        .HasColumnType("int");
+                    b.Property<string>("Subclasses")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WeaponTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Traits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArmorTypeId");
-
-                    b.HasIndex("ToolId");
-
-                    b.HasIndex("WeaponTypeId");
 
                     b.ToTable("Classes");
 
@@ -324,12 +236,24 @@ namespace DND5eAPI.Migrations
                             Id = 1,
                             HitDie = "d12",
                             Name = "Barbarian",
-                            NumberOfSkillsToChoose = 2,
                             PrimaryAbility = "Strength",
-                            Proficiencies = "[{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ArmorProficiency\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"ProficiencyGroup\"},{\"ProficiencyType\":\"SavingThrowProficiency\"},{\"ProficiencyType\":\"SavingThrowProficiency\"}]",
+                            Proficiencies = "[{\"$type\":\"ArmorProficiency\",\"ArmorTypeId\":2},{\"$type\":\"ArmorProficiency\",\"ArmorTypeId\":3},{\"$type\":\"ArmorProficiency\",\"ArmorTypeId\":5},{\"$type\":\"ProficiencyGroup\",\"ProficiencyGroupName\":\"Simple Weapons\"},{\"$type\":\"ProficiencyGroup\",\"ProficiencyGroupName\":\"Martial Weapons\"},{\"$type\":\"SavingThrowProficiency\",\"Ability\":\"Strength\"},{\"$type\":\"SavingThrowProficiency\",\"Ability\":\"Constitution\"}]",
                             SkillProficiencyOptions = "[\"Animal Handling\",\"Athletics\",\"Intimidation\",\"Nature\",\"Perception\",\"Survival\"]",
                             SpecialPointsName = "Rage",
                             StartingGold = 15
+                        },
+                        new
+                        {
+                            Id = 2,
+                            HitDie = "d6",
+                            Name = "Wizard",
+                            PrimaryAbility = "Intelligence",
+                            Proficiencies = "[{\"$type\":\"ProficiencyGroup\",\"ProficiencyGroupName\":\"Simple Weapons\"},{\"$type\":\"SavingThrowProficiency\",\"Ability\":\"Intelligence\"},{\"$type\":\"SavingThrowProficiency\",\"Ability\":\"Wisdom\"}]",
+                            SkillProficiencyOptions = "[\"Arcana\",\"History\",\"Insight\",\"Investigation\",\"Medicine\",\"Nature\",\"Religion\"]",
+                            SpecialPointsName = "Arcane Recovery",
+                            Spells = "[{\"Id\":6,\"Name\":\"Ray of Frost\",\"IndexName\":\"ray-of-frost\",\"Description\":\"A frigid beam of blue-white light streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 1d8 Cold damage, and its Speed is reduced by 10 feet until the start of your next turn.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d8\",\"IsAttackRoll\":true,\"DamageType\":\"cold\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":0,\"UpcastEffect\":null,\"UpgradeLevels\":[5,11,17],\"BaseNumberOfCasts\":1,\"Range\":\"60 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":false,\"MaterialComponentDescription\":null,\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":7,\"Name\":\"Fire bolt\",\"IndexName\":\"fire-bolt\",\"Description\":\"You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn\\u2019t being worn or carried.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":0,\"UpcastEffect\":null,\"UpgradeLevels\":[5,11,17],\"BaseNumberOfCasts\":1,\"Range\":\"120 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":false,\"MaterialComponentDescription\":null,\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":5,\"Name\":\"Fireball\",\"IndexName\":\"fireball\",\"Description\":\"A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren\\u2019t being worn or carried start burning.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":3,\"UpcastEffect\":\"1d6\",\"UpgradeLevels\":null,\"BaseNumberOfCasts\":1,\"Range\":\"150 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":true,\"MaterialComponentDescription\":\"a ball of bat guano and sulfur\",\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":4,\"Name\":\"Scorching Ray\",\"IndexName\":\"scorching-ray\",\"Description\":\"You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage. Using a Higher-Level Spell Slot. You create one additional ray for each spell slot level above 2.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":2,\"UpcastEffect\":\"bnoc\\u002B1\",\"UpgradeLevels\":null,\"BaseNumberOfCasts\":3,\"Range\":\"120 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":false,\"MaterialComponentDescription\":null,\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":3,\"Name\":\"Hold Person\",\"IndexName\":\"hold-person\",\"Description\":\"Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":2,\"UpcastEffect\":\"bnoc\\u002B1\",\"UpgradeLevels\":null,\"BaseNumberOfCasts\":1,\"Range\":\"60 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":true,\"MaterialComponentDescription\":\"a straight piece of iron\",\"Duration\":\"Concentration, up to 1 minute\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":true,\"IsRecurring\":true,\"IsRecurringOnMove\":false,\"School\":\"Enchantment\",\"Classes\":null}]",
+                            StartingEquipment = "[{\"Id\":1,\"Name\":\"Spellbook\",\"IndexName\":\"spellbook\",\"Cost\":50,\"Weight\":3,\"Description\":\"A book containing spells used by wizards.\",\"EquipmentCategoryId\":5,\"Effects\":null,\"EquipmentCategory\":null}]",
+                            StartingGold = 5
                         });
                 });
 
@@ -353,6 +277,9 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Weapons")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Conditions");
@@ -362,105 +289,105 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 1,
                             Description = "While you have the Blinded condition, you experience the following effects. Can’t See. You can’t see and automatically fail any ability check that requires sight. Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Can\\u0027t see\",\"Description\":\"You can\\u2019t see and automatically fail any ability check that requires sight\"},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Can\\u0027t see\",\"Description\":\"You can\\u2019t see and automatically fail any ability check that requires sight\"},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
                             Name = "Blinded"
                         },
                         new
                         {
                             Id = 2,
                             Description = "While you have the Charmed condition, you experience the following effects. Can’t Harm the Charmer. You can’t attack the charmer or target the charmer with damaging abilities or magical effects. Social Advantage. The charmer has Advantage on any ability check to interact with you socially.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Can\\u0027t harm the charmer\",\"Description\":\"You can\\u2019t attack the charmer or target the charmer with damaging abilities or magical effects\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Social advantage\",\"Description\":\"The charmer has Advantage on any ability check to interact with you socially\"}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Can\\u0027t harm the charmer\",\"Description\":\"You can\\u2019t attack the charmer or target the charmer with damaging abilities or magical effects\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Social advantage\",\"Description\":\"The charmer has Advantage on any ability check to interact with you socially\"}]",
                             Name = "Charmed"
                         },
                         new
                         {
                             Id = 3,
                             Description = "While you have the Deafened condition, you experience the following effect. Can’t Hear. You can’t hear and automatically fail any ability check that requires hearing.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Can\\u0027t hear\",\"Description\":\"You can\\u2019t hear and automatically fail any ability check that requires hearing\"}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Can\\u0027t hear\",\"Description\":\"You can\\u2019t hear and automatically fail any ability check that requires hearing\"}]",
                             Name = "Deafened"
                         },
                         new
                         {
                             Id = 4,
                             Description = "While you have the Exhaustion condition, you experience the following effects. Exhaustion Levels. This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6. D20 Tests Affected. When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level. Speed Reduced. Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level. Removing Exhaustion Levels. Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Exhaustion levels\",\"Description\":\"This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"D20 tests affected\",\"Description\":\"When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level\"},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Removing Exhaustion Levels\",\"Description\":\"Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends\"}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Exhaustion levels\",\"Description\":\"This condition is cumulative. Each time you receive it, you gain 1 Exhaustion level. You die if your Exhaustion level is 6\"},{\"$type\":\"EsotericEffect\",\"Name\":\"D20 tests affected\",\"Description\":\"When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level\"},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"EsotericEffect\",\"Name\":\"Removing Exhaustion Levels\",\"Description\":\"Finishing a Long Rest removes 1 of your Exhaustion levels. When your Exhaustion level reaches 0, the condition ends\"}]",
                             Name = "Exhaustion"
                         },
                         new
                         {
                             Id = 5,
                             Description = "While you have the Frightened condition, you experience the following effects. Ability Checks and Attacks Affected. You have Disadvantage on ability checks and attack rolls while the source of fear is within line of sight. Can’t Approach. You can’t willingly move closer to the source of fear.",
-                            Effects = "[{\"EffectType\":\"AbilityCheckEffect\",\"HasAdvantageOrDisadvantage\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Can\\u0027t approach\",\"Description\":\"You can\\u2019t willingly move closer to the source of fear\"}]",
+                            Effects = "[{\"$type\":\"AbilityCheckEffect\",\"HasAdvantageOrDisadvantage\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Can\\u0027t approach\",\"Description\":\"You can\\u2019t willingly move closer to the source of fear\"}]",
                             Name = "Frightened"
                         },
                         new
                         {
                             Id = 6,
                             Description = "While you have the Grappled condition, you experience the following effects. Speed 0. Your Speed is 0 and can’t increase. Attacks Affected. You have Disadvantage on attack rolls against any target other than the grappler. Movable. The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it.",
-                            Effects = "[{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"You have Disadvantage on attack rolls against any target other than the grappler.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Movable\",\"Description\":\"The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it\"}]",
+                            Effects = "[{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"You have Disadvantage on attack rolls against any target other than the grappler.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Movable\",\"Description\":\"The grappler can drag or carry you when it moves, but every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it\"}]",
                             Name = "Grappled"
                         },
                         new
                         {
                             Id = 7,
                             Description = "While you have the Incapacitated condition, you experience the following effects. Inactive. You can’t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can’t speak. Surprised. If you’re Incapacitated when you roll Initiative, you have Disadvantage on the roll.",
-                            Effects = "[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]",
+                            Effects = "[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]",
                             Name = "Incapacitated"
                         },
                         new
                         {
                             Id = 8,
                             Description = "While you have the Invisible condition, you experience the following effects. Surprise. If you’re Invisible when you roll Initiative, you have Advantage on the roll. Concealed. You aren’t affected by any effect that requires its target to be seen unless the effect’s creator can somehow see you. Any equipment you are wearing or carrying is also concealed. Attacks Affected. Attack rolls against you have Disadvantage, and your attack rolls have Advantage. If a creature can somehow see you, you don’t gain this benefit against that creature.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprise\",\"Description\":\"If you\\u2019re Invisible when you roll Initiative, you have Advantage on the roll.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Concealed\",\"Description\":\"You aren\\u2019t affected by any effect that requires its target to be seen unless the effect\\u2019s creator can somehow see you. Any equipment you are wearing or carrying is also concealed.\"},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":true,\"AttackersHaveAdvantageOrDisadvantage\":false,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Surprise\",\"Description\":\"If you\\u2019re Invisible when you roll Initiative, you have Advantage on the roll.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Concealed\",\"Description\":\"You aren\\u2019t affected by any effect that requires its target to be seen unless the effect\\u2019s creator can somehow see you. Any equipment you are wearing or carrying is also concealed.\"},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":true,\"AttackersHaveAdvantageOrDisadvantage\":false,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
                             Name = "Invisible"
                         },
                         new
                         {
                             Id = 9,
                             Description = "While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can’t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you",
-                            Effects = "[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]",
+                            Effects = "[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]",
                             Name = "Paralyzed"
                         },
                         new
                         {
                             Id = 10,
                             Description = "While you have the Petrified condition, you experience the following effects. Turned to Inanimate Substance. You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can’t increase. Attacks Affected. Attack rolls against you have Advantage. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Resist Damage. You have Resistance to all damage. Poison Immunity. You have Immunity to the Poisoned condition.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Turned to Inanimate Substance\",\"Description\":\"You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging.\"},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Resist Damage\",\"Description\":\"You have Resistance to all damage.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Poison Immunity\",\"Description\":\"You have Immunity to the Poisoned condition.\"}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Turned to Inanimate Substance\",\"Description\":\"You are transformed, along with any nonmagical objects you are wearing and carrying, into a solid inanimate substance (usually stone). Your weight increases by a factor of ten, and you cease aging.\"},{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"EsotericEffect\",\"Name\":\"Resist Damage\",\"Description\":\"You have Resistance to all damage.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Poison Immunity\",\"Description\":\"You have Immunity to the Poisoned condition.\"}]",
                             Name = "Petrified"
                         },
                         new
                         {
                             Id = 11,
                             Description = "While you have the Poisoned condition, you experience the following effect. Ability Checks and Attacks Affected. You have Disadvantage on attack rolls and ability checks.",
-                            Effects = "[{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"AbilityCheckEffect\",\"HasAdvantageOrDisadvantage\":false}]",
+                            Effects = "[{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"AbilityCheckEffect\",\"HasAdvantageOrDisadvantage\":false}]",
                             Name = "Poisoned"
                         },
                         new
                         {
                             Id = 12,
                             Description = "While you have the Prone condition, you experience the following effects. Restricted Movement. Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can’t right yourself. Attacks Affected. You have Disadvantage on attack rolls. An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.",
-                            Effects = "[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Restricted Movement\",\"Description\":\"Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself.\"},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\"}]",
+                            Effects = "[{\"$type\":\"EsotericEffect\",\"Name\":\"Restricted Movement\",\"Description\":\"Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself.\"},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\"}]",
                             Name = "Prone"
                         },
                         new
                         {
                             Id = 13,
                             Description = "While you have the Restrained condition, you experience the following effects. Speed 0. Your Speed is 0 and can’t increase. Attacks Affected. Attack rolls against you have Advantage, and your attack rolls have Disadvantage. Saving Throws Affected. You have Disadvantage on Dexterity saving throws.",
-                            Effects = "[{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":false,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":null}]",
+                            Effects = "[{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":false,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":null}]",
                             Name = "Restrained"
                         },
                         new
                         {
                             Id = 14,
                             Description = "While you have the Stunned condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage.",
-                            Effects = "[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
+                            Effects = "[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0}]",
                             Name = "Stunned"
                         },
                         new
                         {
                             Id = 15,
                             Description = "While you have the Unconscious condition, you experience the following effects. Inert. You have the Incapacitated and Prone conditions, and you drop whatever you’re holding. When this condition ends, you remain Prone. Speed 0. Your Speed is 0 and can’t increase. Attacks Affected. Attack rolls against you have Advantage. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you. Unaware. You’re unaware of your surroundings.",
-                            Effects = "[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":12,\"Name\":\"Prone\",\"Description\":\"While you have the Prone condition, you experience the following effects. Restricted Movement. Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself. Attacks Affected. You have Disadvantage on attack rolls. An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\",\"Effects\":[{\"EffectType\":\"EsotericEffect\",\"Name\":\"Restricted Movement\",\"Description\":\"Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself.\"},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Unaware\",\"Description\":\"You\\u2019re unaware of your surroundings.\"}]",
+                            Effects = "[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":12,\"Name\":\"Prone\",\"Description\":\"While you have the Prone condition, you experience the following effects. Restricted Movement. Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself. Attacks Affected. You have Disadvantage on attack rolls. An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\",\"Effects\":[{\"$type\":\"EsotericEffect\",\"Name\":\"Restricted Movement\",\"Description\":\"Your only movement options are to crawl or to spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition. If your Speed is 0, you can\\u2019t right yourself.\"},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":false,\"AttackersHaveAdvantageOrDisadvantage\":null,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Attacks Affected\",\"Description\":\"An attack roll against you has Advantage if the attacker is within 5 feet of you. Otherwise, that attack roll has Disadvantage.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Unaware\",\"Description\":\"You\\u2019re unaware of your surroundings.\"}]",
                             Name = "Unconscious"
                         });
                 });
@@ -792,8 +719,8 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ClassId")
-                        .HasColumnType("int");
+                    b.Property<string>("Backgrounds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Cost")
                         .HasColumnType("int");
@@ -819,12 +746,13 @@ namespace DND5eAPI.Migrations
                     b.Property<string>("PlayerCharacterId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Tools")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.HasIndex("EquipmentCategoryId");
 
@@ -840,6 +768,9 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Equipment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -890,6 +821,9 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Backgrounds")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -906,12 +840,7 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Feats");
                 });
@@ -924,9 +853,6 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BackgroundId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -935,14 +861,10 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Races")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BackgroundId");
-
-                    b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Languages");
 
@@ -984,11 +906,27 @@ namespace DND5eAPI.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Attributes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("BackgroundId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
+
+                    b.Property<string>("EquipedArmor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EquipedWeapons")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Feats")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Languages")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -1001,7 +939,6 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Proficiencies")
@@ -1013,6 +950,12 @@ namespace DND5eAPI.Migrations
 
                     b.Property<int>("SpecialPoints")
                         .HasColumnType("int");
+
+                    b.Property<string>("SpellSlots")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Spells")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SubclassId")
                         .HasColumnType("int");
@@ -1037,17 +980,21 @@ namespace DND5eAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a30d7a3c-561e-4ab9-bb96-2e0ee6f0f3b1",
-                            BackgroundId = 1,
-                            ClassId = 1,
+                            Id = "d0adb223-b980-46cc-b80d-f14f925f18f4",
+                            Attributes = "{\"Strength\":{\"Name\":\"Strength\",\"Value\":9},\"Dexterity\":{\"Name\":\"Dexterity\",\"Value\":14},\"Constitution\":{\"Name\":\"Constitution\",\"Value\":15},\"Intelligence\":{\"Name\":\"Intelligence\",\"Value\":16},\"Wisdom\":{\"Name\":\"Wisdom\",\"Value\":11},\"Charisma\":{\"Name\":\"Charisma\",\"Value\":13}}",
+                            BackgroundId = 2,
+                            ClassId = 2,
+                            EquipedArmor = "[{\"Id\":1,\"Name\":\"Wizards Robes\",\"IndexName\":\"wizards-robes\",\"Description\":\"A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.\",\"Cost\":1,\"Weight\":4,\"BaseArmorClass\":10,\"Effects\":null,\"ArmorTypeId\":1,\"ArmorType\":null,\"Traits\":null,\"Spells\":null}]",
+                            EquipedWeapons = "[{\"Id\":1,\"Name\":\"Basic Quarterstaff\",\"IndexName\":\"basic-quarterstaff\",\"Description\":\"A simple wooden staff, often used by mages.\",\"MagicBonus\":0,\"WeaponTypeId\":8,\"Cost\":2,\"Weight\":4,\"Effects\":null,\"AttunementRequired\":false,\"WeaponType\":null,\"Traits\":null,\"Spells\":null}]",
                             Level = 1,
-                            MaxHitPoints = 10,
-                            Name = "Aria",
+                            MaxHitPoints = 8,
+                            Name = "Gale",
                             Notes = "[]",
-                            Proficiencies = "[]",
-                            RaceId = 2,
-                            SpecialPoints = 1,
-                            SubraceId = 2
+                            Proficiencies = "[{\"$type\":\"SkillProficiency\",\"SkillName\":\"Arcana\"},{\"$type\":\"SkillProficiency\",\"SkillName\":\"History\"},{\"$type\":\"SkillProficiency\",\"SkillName\":\"Insight\"},{\"$type\":\"SkillProficiency\",\"SkillName\":\"Investigation\"}]",
+                            RaceId = 4,
+                            SpecialPoints = 0,
+                            SpellSlots = "[{\"Level\":1,\"MaxAvailable\":2,\"Used\":0}]",
+                            Spells = "[{\"Id\":7,\"Name\":\"Fire bolt\",\"IndexName\":\"fire-bolt\",\"Description\":\"You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn\\u2019t being worn or carried.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":0,\"UpcastEffect\":null,\"UpgradeLevels\":[5,11,17],\"BaseNumberOfCasts\":1,\"Range\":\"120 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":false,\"MaterialComponentDescription\":null,\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":6,\"Name\":\"Ray of Frost\",\"IndexName\":\"ray-of-frost\",\"Description\":\"A frigid beam of blue-white light streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 1d8 Cold damage, and its Speed is reduced by 10 feet until the start of your next turn.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d8\",\"IsAttackRoll\":true,\"DamageType\":\"cold\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":0,\"UpcastEffect\":null,\"UpgradeLevels\":[5,11,17],\"BaseNumberOfCasts\":1,\"Range\":\"60 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":false,\"MaterialComponentDescription\":null,\"Duration\":\"Instantaneous\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":false,\"IsRecurring\":false,\"IsRecurringOnMove\":false,\"School\":\"Evocation\",\"Classes\":null},{\"Id\":3,\"Name\":\"Hold Person\",\"IndexName\":\"hold-person\",\"Description\":\"Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.\",\"CanTargetSelf\":false,\"Effects\":[{\"$type\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}],\"SpellSlotLevel\":2,\"UpcastEffect\":\"bnoc\\u002B1\",\"UpgradeLevels\":null,\"BaseNumberOfCasts\":1,\"Range\":\"60 feet\",\"VerbalComponent\":true,\"SomaticComponent\":true,\"MaterialComponent\":true,\"MaterialComponentDescription\":\"a straight piece of iron\",\"Duration\":\"Concentration, up to 1 minute\",\"CastingTime\":\"1 action\",\"IsRitual\":false,\"Cooldown\":\"None\",\"Concentration\":true,\"IsRecurring\":true,\"IsRecurringOnMove\":false,\"School\":\"Enchantment\",\"Classes\":null}]"
                         });
                 });
 
@@ -1070,12 +1017,18 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Languages")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Size")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Traits")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1089,6 +1042,7 @@ namespace DND5eAPI.Migrations
                             BaseMovementSpeed = 30,
                             Description = "Dwarves were raised from the earth in the elder days by a deity of the forge.",
                             FullDescription = "Dwarves were raised from the earth in the elder days by a deity of the forge. Called by various names on different worlds—Moradin, Reorx, and others—that god gave dwarves an affinity for stone and metal and for living underground. The god also made them resilient like the mountains, with a life span of about 350 years.\r\n\r\nSquat and often bearded, the original dwarves carved cities and strongholds into mountainsides and under the earth. Their oldest legends tell of conflicts with the monsters of mountaintops and the Underdark, whether those monsters were towering giants or subterranean horrors. Inspired by those tales, dwarves of any culture often sing of valorous deeds—especially of the little overcoming the mighty.\r\n\r\nOn some worlds in the multiverse, the first settlements of dwarves were built in hills or mountains, and the families who trace their ancestry to those settlements call themselves hill dwarves or mountain dwarves, respectively. The Greyhawk and Dragonlance settings have such communities.",
+                            Languages = "[{\"Id\":1,\"Name\":\"Common\",\"Description\":\"The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.\"}]",
                             Name = "Dwarf",
                             Size = "Medium"
                         },
@@ -1098,6 +1052,7 @@ namespace DND5eAPI.Migrations
                             BaseMovementSpeed = 30,
                             Description = "The elves’ curiosity led many of them to explore other planes of existence.",
                             FullDescription = "Created by the god Corellon, the first elves could change their forms at will. They lost this ability when Corellon cursed them for plotting with the deity Lolth, who tried and failed to usurp Corellon’s dominion. When Lolth was cast into the Abyss, most elves renounced her and earned Corellon’s forgiveness, but that which Corellon had taken from them was lost forever.\r\n\r\nNo longer able to shape-shift at will, the elves retreated to the Feywild, where their sorrow was deepened by that plane’s influence. Over time, curiosity led many of them to explore other planes of existence, including worlds in the Material Plane.\r\n\r\nElves have pointed ears and lack facial and body hair. They live for around 750 years, and they don’t sleep but instead enter a trance when they need to rest. In that state, they remain aware of their surroundings while immersing themselves in memories and meditations.\r\n\r\nAn environment subtly transforms elves after they inhabit it for a millennium or more, and it grants them certain kinds of magic. Drow, high elves, and wood elves are examples of elves who have been transformed thus.",
+                            Languages = "[{\"Id\":1,\"Name\":\"Common\",\"Description\":\"The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.\"},{\"Id\":2,\"Name\":\"Elvish\",\"Description\":\"A complex language of Elves, with a great deal of subtlety and intricate grammar. It is very easy to say the wrong thing just by putting emphasis on the wrong syllable in a word. It is a common language among bards.\"}]",
                             Name = "Elf",
                             Size = "Medium"
                         },
@@ -1107,6 +1062,7 @@ namespace DND5eAPI.Migrations
                             BaseMovementSpeed = 30,
                             Description = "Halflings possess a brave and adventurous spirit that leads them on journeys of discovery.",
                             FullDescription = "Cherished and guided by gods who value life, home, and hearth, halflings gravitate toward bucolic havens where family and community help shape their lives. That said, many halflings possess a brave and adventurous spirit that leads them on journeys of discovery, affording them the chance to explore a bigger world and make new friends along the way. Their size—similar to that of a human child—helps them pass through crowds unnoticed and slip through tight spaces.\r\n\r\nAnyone who has spent time around halflings, particularly halfling adventurers, has likely witnessed the storied “luck of the halflings” in action. When a halfling is in mortal danger, an unseen force seems to intervene on the halfling’s behalf. Many halflings believe in the power of luck, and they attribute their unusual gift to one or more of their benevolent gods, including Yondalla, Brandobaris, and Charmalaine. The same gift might contribute to their robust life spans (about 150 years).\r\n\r\nHalfling communities come in all varieties. For every sequestered shire tucked away in an unspoiled part of the world, there’s a crime syndicate like the Boromar Clan in the Eberron setting or a territorial mob of halflings like those in the Dark Sun setting.\r\n\r\nHalflings who prefer to live underground are sometimes called strongheart halflings or stouts. Nomadic halflings, as well as those who live among humans and other tall folk, are sometimes called lightfoot halflings or tallfellows.",
+                            Languages = "[{\"Id\":1,\"Name\":\"Common\",\"Description\":\"The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.\"},{\"Id\":4,\"Name\":\"Gnomish\",\"Description\":\"The language of Gnomes developed alongside dwarvish, though segued into its own complex language as gnomes became more technically minded.\"}]",
                             Name = "Halfling",
                             Size = "Small"
                         },
@@ -1116,6 +1072,7 @@ namespace DND5eAPI.Migrations
                             BaseMovementSpeed = 30,
                             Description = "Found throughout the multiverse, humans are as varied as they are numerous.",
                             FullDescription = "Found throughout the multiverse, humans are as varied as they are numerous, and they endeavor to achieve as much as they can in the years they are given. Their ambition and resourcefulness are commended, respected, and feared on many worlds.\r\n\r\nHumans are as diverse in appearance as the people of Earth, and they have many gods. Scholars dispute the origin of humanity, but one of the earliest known human gatherings is said to have occurred in Sigil, the torus-shaped city at the center of the multiverse and the place where the Common language was born. From there, humans could have spread to every part of the multiverse, bringing the City of Doors’ cosmopolitanism with them.",
+                            Languages = "[{\"Id\":1,\"Name\":\"Common\",\"Description\":\"The most commonly spoken language in the world. It was a language formed by the fusion of many cultures all slowly combining together over centuries.\"}]",
                             Name = "Human",
                             Size = "Medium"
                         });
@@ -1129,6 +1086,9 @@ namespace DND5eAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Armors")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("BaseNumberOfCasts")
                         .HasColumnType("int");
 
@@ -1137,6 +1097,9 @@ namespace DND5eAPI.Migrations
 
                     b.Property<string>("CastingTime")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Classes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Concentration")
@@ -1180,9 +1143,6 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Range")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1197,9 +1157,6 @@ namespace DND5eAPI.Migrations
                     b.Property<int>("SpellSlotLevel")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubclassId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UpcastEffect")
                         .HasColumnType("nvarchar(max)");
 
@@ -1209,11 +1166,10 @@ namespace DND5eAPI.Migrations
                     b.Property<bool>("VerbalComponent")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Weapons")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("PlayerCharacterId");
-
-                    b.HasIndex("SubclassId");
 
                     b.ToTable("Spells");
 
@@ -1228,7 +1184,7 @@ namespace DND5eAPI.Migrations
                             Cooldown = "None",
                             Description = "You hurl a beam of crackling energy. Make a ranged spell attack against one creature or object in range. On a hit, the target takes 1d10 Force damage. Cantrip Upgrade. The spell creates two beams at level 5, three beams at level 11, and four beams at level 17. You can direct the beams at the same target or at different ones. Make a separate attack roll for each beam",
                             Duration = "Instantaneous",
-                            Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"force\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"force\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
                             IndexName = "eldritch-blast",
                             IsRecurring = false,
                             IsRecurringOnMove = false,
@@ -1252,7 +1208,7 @@ namespace DND5eAPI.Migrations
                             Cooldown = "None",
                             Description = "A creature of your choice that you can see within range regains Hit Points equal to 2d4 plus your spellcasting ability modifier. Using a Higher-Level Spell Slot. The healing increases by 2d4 for each spell slot level above 1",
                             Duration = "Instantaneous",
-                            Effects = "[{\"EffectType\":\"SpellHealingEffect\",\"Dice\":\"2d4\\u002B{sam}\",\"Amount\":0,\"IsTempHP\":false},{\"EffectType\":\"SpellCostEffect\",\"Action\":false,\"BonusAction\":true,\"Reaction\":false}]",
+                            Effects = "[{\"$type\":\"SpellHealingEffect\",\"Dice\":\"2d4\\u002B{sam}\",\"Amount\":0,\"IsTempHP\":false},{\"$type\":\"SpellCostEffect\",\"Action\":false,\"BonusAction\":true,\"Reaction\":false}]",
                             IndexName = "healing-word",
                             IsRecurring = false,
                             IsRecurringOnMove = false,
@@ -1276,7 +1232,7 @@ namespace DND5eAPI.Migrations
                             Cooldown = "None",
                             Description = "Choose a Humanoid that you can see within range. The target must succeed on a Wisdom saving throw or have the Paralyzed condition for the duration. At the end of each of its turns, the target repeats the save, ending the spell on itself on a success. Using a Higher-Level Spell Slot. You can target one additional Humanoid for each spell slot level above 2.",
                             Duration = "Concentration, up to 1 minute",
-                            Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"EffectType\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"EffectType\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"EffectType\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"EffectType\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":null,\"IsAttackRoll\":false,\"DamageType\":null,\"SavingThrowAttribute\":\"Wisdom\",\"SavingThrowDC\":-1,\"SavingThrowSuccessEffect\":\"negate-effect\"},{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":9,\"Name\":\"Paralyzed\",\"Description\":\"While you have the Paralyzed condition, you experience the following effects. Incapacitated. You have the Incapacitated condition. Speed 0. Your Speed is 0 and can\\u2019t increase. Saving Throws Affected. You automatically fail Strength and Dexterity saving throws. Attacks Affected. Attack rolls against you have Advantage. Automatic Critical Hits. Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you\",\"Effects\":[{\"$type\":\"ConditionEffect\",\"Condition\":{\"Id\":7,\"Name\":\"Incapacitated\",\"Description\":\"While you have the Incapacitated condition, you experience the following effects. Inactive. You can\\u2019t take any action, Bonus Action, or Reaction. No Concentration. Your Concentration is broken. Speechless. You can\\u2019t speak. Surprised. If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\",\"Effects\":[{\"$type\":\"ActionEconomyEffect\",\"NumberOfActions\":0,\"NumberOfBonusActions\":0,\"NumberOfReactions\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"No Concentration\",\"Description\":\"Your Concentration is broken.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Speechless\",\"Description\":\"You can\\u2019t speak.\"},{\"$type\":\"EsotericEffect\",\"Name\":\"Surprised\",\"Description\":\"If you\\u2019re Incapacitated when you roll Initiative, you have Disadvantage on the roll.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"OtherCharacterEffect\",\"MovementSpeedModifier\":0,\"SpecialPointsModifier\":0,\"SpellSlotModifier\":{},\"HasAdvantageOrDisadvantageOnConcentrationSavingThrows\":null},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"strength\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttributeEffect\",\"TargetAttribute\":\"dexterity\",\"SetAttribute\":false,\"Modifier\":0,\"AddOrRemoveProficiencyInSavingThrows\":null,\"HasAdvantageOrDisadvantageOnSavingThrows\":null,\"HasAdvantageOrDisadvantageOnAbilityChecks\":null,\"AutomaticallySucceedsOnSavingThrows\":false},{\"$type\":\"AttackRollEffect\",\"HasAdvantageOrDisadvantage\":null,\"AttackersHaveAdvantageOrDisadvantage\":true,\"SpellAttackRollBonusModifier\":0,\"WeaponAttackRollBonusModifier\":0},{\"$type\":\"EsotericEffect\",\"Name\":\"Automatic Critical Hits\",\"Description\":\"Any attack roll that hits you is a Critical Hit if the attacker is within 5 feet of you.\"}]},\"SavingThrowAttribute\":null,\"SavingThrowDC\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
                             IndexName = "hold-person",
                             IsRecurring = true,
                             IsRecurringOnMove = false,
@@ -1301,7 +1257,7 @@ namespace DND5eAPI.Migrations
                             Cooldown = "None",
                             Description = "You hurl three fiery rays. You can hurl them at one target within range or at several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 Fire damage. Using a Higher-Level Spell Slot. You create one additional ray for each spell slot level above 2.",
                             Duration = "Instantaneous",
-                            Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"2d6\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
                             IndexName = "scorching-ray",
                             IsRecurring = false,
                             IsRecurringOnMove = false,
@@ -1325,7 +1281,7 @@ namespace DND5eAPI.Migrations
                             Cooldown = "None",
                             Description = "A bright streak flashes from you to a point you choose within range and then blossoms with a low roar into a fiery explosion. Each creature in a 20-foot-radius Sphere centered on that point makes a Dexterity saving throw, taking 8d6 Fire damage on a failed save or half as much damage on a successful one. Flammable objects in the area that aren’t being worn or carried start burning.",
                             Duration = "Instantaneous",
-                            Effects = "[{\"EffectType\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"EffectType\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"8d6\",\"IsAttackRoll\":false,\"DamageType\":\"fire\",\"SavingThrowAttribute\":\"dexterity\",\"SavingThrowDC\":15,\"SavingThrowSuccessEffect\":\"half-damage\"},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
                             IndexName = "fireball",
                             IsRecurring = false,
                             IsRecurringOnMove = false,
@@ -1338,6 +1294,54 @@ namespace DND5eAPI.Migrations
                             SomaticComponent = true,
                             SpellSlotLevel = 3,
                             UpcastEffect = "1d6",
+                            VerbalComponent = true
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BaseNumberOfCasts = 1,
+                            CanTargetSelf = false,
+                            CastingTime = "1 action",
+                            Concentration = false,
+                            Cooldown = "None",
+                            Description = "A frigid beam of blue-white light streaks toward a creature within range. Make a ranged spell attack against the target. On a hit, it takes 1d8 Cold damage, and its Speed is reduced by 10 feet until the start of your next turn.",
+                            Duration = "Instantaneous",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d8\",\"IsAttackRoll\":true,\"DamageType\":\"cold\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            IndexName = "ray-of-frost",
+                            IsRecurring = false,
+                            IsRecurringOnMove = false,
+                            IsRitual = false,
+                            MaterialComponent = false,
+                            Name = "Ray of Frost",
+                            Range = "60 feet",
+                            School = "Evocation",
+                            SomaticComponent = true,
+                            SpellSlotLevel = 0,
+                            UpgradeLevels = "[5,11,17]",
+                            VerbalComponent = true
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BaseNumberOfCasts = 1,
+                            CanTargetSelf = false,
+                            CastingTime = "1 action",
+                            Concentration = false,
+                            Cooldown = "None",
+                            Description = "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn’t being worn or carried.",
+                            Duration = "Instantaneous",
+                            Effects = "[{\"$type\":\"SpellAttackEffect\",\"Dice\":\"1d10\",\"IsAttackRoll\":true,\"DamageType\":\"fire\",\"SavingThrowAttribute\":null,\"SavingThrowDC\":null,\"SavingThrowSuccessEffect\":null},{\"$type\":\"SpellCostEffect\",\"Action\":true,\"BonusAction\":false,\"Reaction\":false}]",
+                            IndexName = "fire-bolt",
+                            IsRecurring = false,
+                            IsRecurringOnMove = false,
+                            IsRitual = false,
+                            MaterialComponent = false,
+                            Name = "Fire bolt",
+                            Range = "120 feet",
+                            School = "Evocation",
+                            SomaticComponent = true,
+                            SpellSlotLevel = 0,
+                            UpgradeLevels = "[5,11,17]",
                             VerbalComponent = true
                         });
                 });
@@ -1359,6 +1363,12 @@ namespace DND5eAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Spells")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Traits")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1386,6 +1396,9 @@ namespace DND5eAPI.Migrations
 
                     b.Property<int>("ParentRaceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Traits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1429,6 +1442,16 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Backgrounds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Classes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CraftableItems")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IndexName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1446,6 +1469,7 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 1,
                             Actions = "[{\"Name\":\"Identify a substance\",\"Attribute\":\"intelligence\",\"DC\":15},{\"Name\":\"Start a fire\",\"Attribute\":\"intelligence\",\"DC\":15}]",
+                            CraftableItems = "[]",
                             IndexName = "alchemists-supplies",
                             Name = "Alchemist's Supplies"
                         },
@@ -1453,6 +1477,7 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 2,
                             Actions = "[{\"Name\":\"Create a map\",\"Attribute\":\"wisdom\",\"DC\":15}]",
+                            CraftableItems = "[]",
                             IndexName = "cartographers-tools",
                             Name = "Cartographer's Tools"
                         },
@@ -1460,6 +1485,7 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 3,
                             Actions = "[{\"Name\":\"Improve food\\u0027s flavor\",\"Attribute\":\"wisdom\",\"DC\":10},{\"Name\":\"Detect spoiled or poisoned food\",\"Attribute\":\"wisdom\",\"DC\":15}]",
+                            CraftableItems = "[]",
                             IndexName = "cooks-utensils",
                             Name = "Cook's Utensils"
                         },
@@ -1467,6 +1493,7 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 4,
                             Actions = "[{\"Name\":\"Mimic 10 or fewer words of someone else\\u2019s handwriting\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Duplicate a wax seal\",\"Attribute\":\"dexterity\",\"DC\":20}]",
+                            CraftableItems = "[]",
                             IndexName = "forgery-kit",
                             Name = "Forgery Kit"
                         },
@@ -1474,8 +1501,17 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 5,
                             Actions = "[{\"Name\":\"Pick a lock\",\"Attribute\":\"dexterity\",\"DC\":15},{\"Name\":\"Disarm a trap\",\"Attribute\":\"dexterity\",\"DC\":15}]",
+                            CraftableItems = "[]",
                             IndexName = "thieves-tools",
                             Name = "Thieves's Tools"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Actions = "[{\"Name\":\"Write text with impressive flourishes that guard against forgery\",\"Attribute\":\"dexterity\",\"DC\":15}]",
+                            CraftableItems = "[]",
+                            IndexName = "calligraphers-supplies",
+                            Name = "Calligrapher's Supplies"
                         });
                 });
 
@@ -1486,6 +1522,15 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Armors")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Backgrounds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Classes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1502,24 +1547,20 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Races")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Requirement")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubclassId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SubraceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UnlockLevel")
                         .HasColumnType("int");
 
+                    b.Property<string>("Weapons")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
-
-                    b.HasIndex("SubclassId");
-
-                    b.HasIndex("SubraceId");
 
                     b.ToTable("Traits");
 
@@ -1528,7 +1569,7 @@ namespace DND5eAPI.Migrations
                         {
                             Id = 1,
                             Description = "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.",
-                            Effects = "[{\"EffectType\":\"ArmorClassEffect\",\"SetArmorClass\":false,\"ArmorClassModifier\":\"Constitution\"}]",
+                            Effects = "[{\"$type\":\"ArmorClassEffect\",\"SetArmorClass\":false,\"ArmorClassModifier\":\"Constitution\"}]",
                             IndexName = "unarmored-defense",
                             Name = "Unarmored Defense",
                             Requirement = "wearsArmor=false",
@@ -1547,7 +1588,7 @@ namespace DND5eAPI.Migrations
                     b.Property<bool>("AttunementRequired")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ConditionId")
+                    b.Property<int>("Cost")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -1568,8 +1609,11 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PlayerCharacterId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Spells")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Traits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("WeaponTypeId")
                         .HasColumnType("int");
@@ -1578,10 +1622,6 @@ namespace DND5eAPI.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConditionId");
-
-                    b.HasIndex("PlayerCharacterId");
 
                     b.HasIndex("WeaponTypeId");
 
@@ -1603,6 +1643,9 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Classes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DamageType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1616,6 +1659,9 @@ namespace DND5eAPI.Migrations
 
                     b.Property<string>("Properties")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Weapons")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Weight")
@@ -2035,231 +2081,21 @@ namespace DND5eAPI.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EquipmentTool", b =>
-                {
-                    b.Property<int>("CraftableItemsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToolsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CraftableItemsId", "ToolsId");
-
-                    b.HasIndex("ToolsId");
-
-                    b.ToTable("EquipmentTool");
-                });
-
-            modelBuilder.Entity("LanguageRace", b =>
-                {
-                    b.Property<int>("LanguagesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RacesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LanguagesId", "RacesId");
-
-                    b.HasIndex("RacesId");
-
-                    b.ToTable("LanguageRace");
-                });
-
-            modelBuilder.Entity("RaceTrait", b =>
-                {
-                    b.Property<int>("RacesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TraitsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RacesId", "TraitsId");
-
-                    b.HasIndex("TraitsId");
-
-                    b.ToTable("RaceTrait");
-                });
-
-            modelBuilder.Entity("SpellWeapon", b =>
-                {
-                    b.Property<int>("SpellsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeaponsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SpellsId", "WeaponsId");
-
-                    b.HasIndex("WeaponsId");
-
-                    b.ToTable("SpellWeapon");
-                });
-
-            modelBuilder.Entity("TraitWeapon", b =>
-                {
-                    b.Property<int>("TraitsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeaponsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TraitsId", "WeaponsId");
-
-                    b.HasIndex("WeaponsId");
-
-                    b.ToTable("TraitWeapon");
-                });
-
-            modelBuilder.Entity("ArmorSpell", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Armor", null)
-                        .WithMany()
-                        .HasForeignKey("ArmorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Spell", null)
-                        .WithMany()
-                        .HasForeignKey("SpellsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ArmorTrait", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Armor", null)
-                        .WithMany()
-                        .HasForeignKey("ArmorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Trait", null)
-                        .WithMany()
-                        .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BackgroundEquipment", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Background", null)
-                        .WithMany()
-                        .HasForeignKey("BackgroundsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Equipment", null)
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BackgroundFeat", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Background", null)
-                        .WithMany()
-                        .HasForeignKey("BackgroundsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Feat", null)
-                        .WithMany()
-                        .HasForeignKey("FeatsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("BackgroundTrait", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Background", null)
-                        .WithMany()
-                        .HasForeignKey("BackgroundsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Trait", null)
-                        .WithMany()
-                        .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClassSpell", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Spell", null)
-                        .WithMany()
-                        .HasForeignKey("SpellsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClassTrait", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Trait", null)
-                        .WithMany()
-                        .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DND5eAPI.Models.Armor", b =>
                 {
                     b.HasOne("DND5eAPI.Models.ArmorType", "ArmorType")
-                        .WithMany("Armors")
+                        .WithMany()
                         .HasForeignKey("ArmorTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("EquipedArmor")
-                        .HasForeignKey("PlayerCharacterId");
-
                     b.Navigation("ArmorType");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Background", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Tool", null)
-                        .WithMany("Backgrounds")
-                        .HasForeignKey("ToolId");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Class", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.ArmorType", null)
-                        .WithMany("Classes")
-                        .HasForeignKey("ArmorTypeId");
-
-                    b.HasOne("DND5eAPI.Models.Tool", null)
-                        .WithMany("Classes")
-                        .HasForeignKey("ToolId");
-
-                    b.HasOne("DND5eAPI.Models.WeaponType", null)
-                        .WithMany("Classes")
-                        .HasForeignKey("WeaponTypeId");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.Equipment", b =>
                 {
-                    b.HasOne("DND5eAPI.Models.Class", null)
-                        .WithMany("StartingEquipment")
-                        .HasForeignKey("ClassId");
-
                     b.HasOne("DND5eAPI.Models.EquipmentCategory", "EquipmentCategory")
-                        .WithMany("Equipment")
+                        .WithMany()
                         .HasForeignKey("EquipmentCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2269,24 +2105,6 @@ namespace DND5eAPI.Migrations
                         .HasForeignKey("PlayerCharacterId");
 
                     b.Navigation("EquipmentCategory");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Feat", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("Feats")
-                        .HasForeignKey("PlayerCharacterId");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Language", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Background", null)
-                        .WithMany("Languages")
-                        .HasForeignKey("BackgroundId");
-
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("Languages")
-                        .HasForeignKey("PlayerCharacterId");
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
@@ -2328,21 +2146,10 @@ namespace DND5eAPI.Migrations
                     b.Navigation("Subrace");
                 });
 
-            modelBuilder.Entity("DND5eAPI.Models.Spell", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("Spells")
-                        .HasForeignKey("PlayerCharacterId");
-
-                    b.HasOne("DND5eAPI.Models.Subclass", null)
-                        .WithMany("Spells")
-                        .HasForeignKey("SubclassId");
-                });
-
             modelBuilder.Entity("DND5eAPI.Models.Subclass", b =>
                 {
                     b.HasOne("DND5eAPI.Models.Class", "Class")
-                        .WithMany("Subclasses")
+                        .WithMany()
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2361,29 +2168,10 @@ namespace DND5eAPI.Migrations
                     b.Navigation("ParentRace");
                 });
 
-            modelBuilder.Entity("DND5eAPI.Models.Trait", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Subclass", null)
-                        .WithMany("Traits")
-                        .HasForeignKey("SubclassId");
-
-                    b.HasOne("DND5eAPI.Models.Subrace", null)
-                        .WithMany("Traits")
-                        .HasForeignKey("SubraceId");
-                });
-
             modelBuilder.Entity("DND5eAPI.Models.Weapon", b =>
                 {
-                    b.HasOne("DND5eAPI.Models.Condition", null)
-                        .WithMany("Weapons")
-                        .HasForeignKey("ConditionId");
-
-                    b.HasOne("DND5eAPI.Models.PlayerCharacter", null)
-                        .WithMany("EquipedWeapons")
-                        .HasForeignKey("PlayerCharacterId");
-
                     b.HasOne("DND5eAPI.Models.WeaponType", "WeaponType")
-                        .WithMany("Weapons")
+                        .WithMany()
                         .HasForeignKey("WeaponTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2391,149 +2179,9 @@ namespace DND5eAPI.Migrations
                     b.Navigation("WeaponType");
                 });
 
-            modelBuilder.Entity("EquipmentTool", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Equipment", null)
-                        .WithMany()
-                        .HasForeignKey("CraftableItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Tool", null)
-                        .WithMany()
-                        .HasForeignKey("ToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LanguageRace", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Language", null)
-                        .WithMany()
-                        .HasForeignKey("LanguagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Race", null)
-                        .WithMany()
-                        .HasForeignKey("RacesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RaceTrait", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Race", null)
-                        .WithMany()
-                        .HasForeignKey("RacesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Trait", null)
-                        .WithMany()
-                        .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SpellWeapon", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Spell", null)
-                        .WithMany()
-                        .HasForeignKey("SpellsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Weapon", null)
-                        .WithMany()
-                        .HasForeignKey("WeaponsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TraitWeapon", b =>
-                {
-                    b.HasOne("DND5eAPI.Models.Trait", null)
-                        .WithMany()
-                        .HasForeignKey("TraitsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DND5eAPI.Models.Weapon", null)
-                        .WithMany()
-                        .HasForeignKey("WeaponsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.ArmorType", b =>
-                {
-                    b.Navigation("Armors");
-
-                    b.Navigation("Classes");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Background", b =>
-                {
-                    b.Navigation("Languages");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Class", b =>
-                {
-                    b.Navigation("StartingEquipment");
-
-                    b.Navigation("Subclasses");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Condition", b =>
-                {
-                    b.Navigation("Weapons");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.EquipmentCategory", b =>
-                {
-                    b.Navigation("Equipment");
-                });
-
             modelBuilder.Entity("DND5eAPI.Models.PlayerCharacter", b =>
                 {
-                    b.Navigation("EquipedArmor");
-
-                    b.Navigation("EquipedWeapons");
-
-                    b.Navigation("Feats");
-
                     b.Navigation("Inventory");
-
-                    b.Navigation("Languages");
-
-                    b.Navigation("Spells");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Subclass", b =>
-                {
-                    b.Navigation("Spells");
-
-                    b.Navigation("Traits");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Subrace", b =>
-                {
-                    b.Navigation("Traits");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.Tool", b =>
-                {
-                    b.Navigation("Backgrounds");
-
-                    b.Navigation("Classes");
-                });
-
-            modelBuilder.Entity("DND5eAPI.Models.WeaponType", b =>
-                {
-                    b.Navigation("Classes");
-
-                    b.Navigation("Weapons");
                 });
 #pragma warning restore 612, 618
         }

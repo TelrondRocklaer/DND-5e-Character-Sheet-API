@@ -17,8 +17,8 @@ namespace DND5eAPI.Models
 
         //
         [JsonIgnore]
-        public List<Background> Backgrounds { get; set; }
+        public ICollection<Background>? Backgrounds { get; set; }
         [JsonIgnore]
-        public List<Class> Classes { get; set; }
+        public ICollection<Class>? Classes { get; set; }
     }
 }

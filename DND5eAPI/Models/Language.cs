@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DND5eAPI.Models
 {
@@ -12,6 +13,7 @@ namespace DND5eAPI.Models
         public string Description { get; set; }
 
         //
-        public List<Race> Races { get; set; }
+        [JsonIgnore]
+        public ICollection<Race>? Races { get; set; }
     }
 }

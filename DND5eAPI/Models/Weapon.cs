@@ -14,6 +14,7 @@ namespace DND5eAPI.Models
         public string Description { get; set; }
         public int MagicBonus { get; set; }
         public int WeaponTypeId { get; set; }
+        public int Cost { get; set; }
         public double Weight { get; set; }
         public ICollection<Effect>? Effects { get; set; }
         public bool AttunementRequired { get; set; }
@@ -21,7 +22,7 @@ namespace DND5eAPI.Models
         //
         [ForeignKey("WeaponTypeId")]
         public WeaponType WeaponType { get; set; }
-        public ICollection<Trait> Traits { get; set; }
-        public ICollection<Spell> Spells { get; set; }
+        public ICollection<Trait>? Traits { get; set; }
+        public ICollection<Spell>? Spells { get; set; }
     }
 }

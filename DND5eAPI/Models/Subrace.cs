@@ -12,6 +12,6 @@ namespace DND5eAPI.Models
         //
         [ForeignKey("ParentRaceId")]
         public Race ParentRace { get; set; }
-        public ICollection<Trait> Traits { get; set; }
+        public ICollection<Trait>? Traits { get; set; }
     }
 }
