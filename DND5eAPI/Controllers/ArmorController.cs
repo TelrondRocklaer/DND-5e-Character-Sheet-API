@@ -15,7 +15,7 @@ namespace DND5eAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Armor>>> GetArmor()
         {
-            var res = await _context.Armor.ToListAsync();
+            var res = await _context.Armor.Include(a => a.ArmorType).ToListAsync();
             return res != null ? Ok(res) : NotFound("No armor");
         }
 
@@ -23,7 +23,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Armor>> GetArmorById(int id)
         {
-            var armor = await _context.Armor.FindAsync(id);
+            var armor = await _context.Armor.Include(a => a.ArmorType).FirstOrDefaultAsync(a => a.Id == id);
             return armor != null ? Ok(armor) : NotFound("Armor with provided id was not found");
         }
 
@@ -31,7 +31,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{indexName}")]
         public async Task<ActionResult<Armor>> GetArmorByName(string indexName)
         {
-            var armor = await _context.Armor.FirstOrDefaultAsync(a => a.IndexName == indexName);
+            var armor = await _context.Armor.Include(a => a.ArmorType).FirstOrDefaultAsync(a => a.IndexName == indexName);
             return armor != null ? Ok(armor) : NotFound("Armor with provided name was not found");
         }
     }

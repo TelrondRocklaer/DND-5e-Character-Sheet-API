@@ -20,7 +20,7 @@ namespace DND5eAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Equipment>>> GetEquipment()
         {
-            var res = await _context.Equipment.ToListAsync();
+            var res = await _context.Equipment.Include(e => e.EquipmentCategory).ToListAsync();
             return res != null ? Ok(res) : NotFound("No equipment");
         }
 
@@ -28,7 +28,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Equipment>> GetEquipment(int id)
         {
-            var equipment = await _context.Equipment.FindAsync(id);
+            var equipment = await _context.Equipment.Include(e => e.EquipmentCategory).FirstOrDefaultAsync(e => e.Id == id);
             return equipment != null ? Ok(equipment) : NotFound("Equipment with provided id was not found");
         }
 
@@ -36,7 +36,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{indexName}")]
         public async Task<ActionResult<Equipment>> GetEquipment(string indexName)
         {
-            var equipment = await _context.Equipment.FirstOrDefaultAsync(e => e.IndexName == indexName);
+            var equipment = await _context.Equipment.Include(e => e.EquipmentCategory).FirstOrDefaultAsync(e => e.IndexName == indexName);
             return equipment != null ? Ok(equipment) : NotFound("Equipment with provided name was not found");
         }
     }

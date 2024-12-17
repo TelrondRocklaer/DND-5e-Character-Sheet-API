@@ -68,6 +68,19 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("ArmorTypeId");
 
                     b.ToTable("Armors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ArmorTypeId = 1,
+                            BaseArmorClass = 10,
+                            Cost = 1,
+                            Description = "A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.",
+                            IndexName = "wizards-robes",
+                            Name = "Wizards Robes",
+                            Weight = 4.0
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.ArmorType", b =>
@@ -719,6 +732,9 @@ namespace DND5eAPI.Migrations
                     b.Property<string>("Backgrounds")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Classes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
@@ -756,6 +772,28 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("PlayerCharacterId");
 
                     b.ToTable("Equipment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cost = 50,
+                            Description = "A book containing spells used by wizards.",
+                            EquipmentCategoryId = 5,
+                            IndexName = "spellbook",
+                            Name = "Spellbook",
+                            Weight = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cost = 1,
+                            Description = "One sheet of Parchment can hold about 250 handwritten words.",
+                            EquipmentCategoryId = 5,
+                            IndexName = "parchment",
+                            Name = "Parchment",
+                            Weight = 0
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.EquipmentCategory", b =>
@@ -977,12 +1015,12 @@ namespace DND5eAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0adb223-b980-46cc-b80d-f14f925f18f4",
+                            Id = "519727ee-0f5f-418d-a9c1-e1c79594ba3a",
                             Attributes = "{\"Strength\":{\"Name\":\"Strength\",\"Value\":9},\"Dexterity\":{\"Name\":\"Dexterity\",\"Value\":14},\"Constitution\":{\"Name\":\"Constitution\",\"Value\":15},\"Intelligence\":{\"Name\":\"Intelligence\",\"Value\":16},\"Wisdom\":{\"Name\":\"Wisdom\",\"Value\":11},\"Charisma\":{\"Name\":\"Charisma\",\"Value\":13}}",
                             BackgroundId = 2,
                             ClassId = 2,
                             EquipedArmor = "[{\"Id\":1,\"Name\":\"Wizards Robes\",\"IndexName\":\"wizards-robes\",\"Description\":\"A Robe has vocational or ceremonial significance. Some events and locations admit only people wearing a Robe bearing certain colors or symbols.\",\"Cost\":1,\"Weight\":4,\"BaseArmorClass\":10,\"Effects\":null,\"ArmorTypeId\":1,\"ArmorType\":null,\"Traits\":null,\"Spells\":null}]",
-                            EquipedWeapons = "[{\"Id\":1,\"Name\":\"Basic Quarterstaff\",\"IndexName\":\"basic-quarterstaff\",\"Description\":\"A simple wooden staff, often used by mages.\",\"MagicBonus\":0,\"WeaponTypeId\":8,\"Cost\":2,\"Weight\":4,\"Effects\":null,\"AttunementRequired\":false,\"WeaponType\":null,\"Traits\":null,\"Spells\":null}]",
+                            EquipedWeapons = "[{\"Id\":1,\"Name\":\"Quarterstaff\",\"IndexName\":\"quarterstaff\",\"Description\":\"A simple wooden staff, often used by mages.\",\"MagicBonus\":0,\"WeaponTypeId\":8,\"Cost\":2,\"Weight\":4,\"Effects\":null,\"AttunementRequired\":false,\"WeaponType\":null,\"Traits\":null,\"Spells\":null}]",
                             Level = 1,
                             MaxHitPoints = 8,
                             Name = "Gale",
@@ -1449,6 +1487,9 @@ namespace DND5eAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Equipment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IndexName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1623,6 +1664,20 @@ namespace DND5eAPI.Migrations
                     b.HasIndex("WeaponTypeId");
 
                     b.ToTable("Weapons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AttunementRequired = false,
+                            Cost = 2,
+                            Description = "A simple wooden staff, often used by mages.",
+                            IndexName = "quarterstaff",
+                            MagicBonus = 0,
+                            Name = "Quarterstaff",
+                            WeaponTypeId = 8,
+                            Weight = 4.0
+                        });
                 });
 
             modelBuilder.Entity("DND5eAPI.Models.WeaponType", b =>

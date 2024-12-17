@@ -25,5 +25,7 @@ namespace DND5eAPI.Data.SeedData
             Description = "One sheet of Parchment can hold about 250 handwritten words.",
             EquipmentCategoryId = 5
         };
+
+        public static Equipment[] Equipment = [Spellbook, Parchment];
     }
 }

@@ -304,11 +304,13 @@ namespace DND5eAPI.Data
                     c => JsonSerializer.Deserialize<ICollection<Equipment>>(JsonSerializer.Serialize(c, JsonSerializerOptions.Default), JsonSerializerOptions.Default) ?? new List<Equipment>()
             ));
 
+            modelBuilder.Entity<Armor>().HasData(ArmorData.Armors);
             modelBuilder.Entity<ArmorType>().HasData(ArmorTypesData.ArmorTypes);
             modelBuilder.Entity<Background>().HasData(BackgroundsData.Backgrounds);
             modelBuilder.Entity<Class>().HasData(ClassesData.Classes);
             modelBuilder.Entity<Condition>().HasData(ConditionsData.Conditions);
             modelBuilder.Entity<Deity>().HasData(DeitiesData.Deities);
+            modelBuilder.Entity<Equipment>().HasData(EquipmentData.Equipment);
             modelBuilder.Entity<EquipmentCategory>().HasData(EquipmentCategoriesData.EquipmentCategories);
             modelBuilder.Entity<Language>().HasData(LanguagesData.Languages);
             modelBuilder.Entity<PlayerCharacter>().HasData(PlayerCharactersData.PlayerCharacters);
@@ -317,6 +319,7 @@ namespace DND5eAPI.Data
             modelBuilder.Entity<Subrace>().HasData(SubracesData.Subraces);
             modelBuilder.Entity<Tool>().HasData(ToolsData.Tools);
             modelBuilder.Entity<Trait>().HasData(TraitsData.Traits);
+            modelBuilder.Entity<Weapon>().HasData(WeaponsData.Weapons);
             modelBuilder.Entity<WeaponType>().HasData(WeaponTypesData.WeaponTypes);
         }
 

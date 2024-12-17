@@ -20,7 +20,7 @@ namespace DND5eAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Weapon>>> GetWeapon()
         {
-            var res = await _context.Weapon.ToListAsync();
+            var res = await _context.Weapon.Include(w => w.WeaponType).ToListAsync();
             return res != null ? Ok(res) : NotFound("No weapons");
         }
 
@@ -28,7 +28,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Weapon>> GetWeapon(int id)
         {
-            var weapon = await _context.Weapon.FindAsync(id);
+            var weapon = await _context.Weapon.Include(w => w.WeaponType).FirstOrDefaultAsync(w => w.Id == id);
             return weapon != null ? Ok(weapon) : NotFound("Weapon with provided id was not found");
         }
 
@@ -36,7 +36,7 @@ namespace DND5eAPI.Controllers
         [HttpGet("{indexName}")]
         public async Task<ActionResult<Weapon>> GetWeapon(string indexName)
         {
-            var weapon = await _context.Weapon.FirstOrDefaultAsync(w => w.IndexName == indexName);
+            var weapon = await _context.Weapon.Include(w => w.IndexName == indexName).FirstOrDefaultAsync(w => w.IndexName == indexName);
             return weapon != null ? Ok(weapon) : NotFound("Weapon with provided name was not found");
         }
     }

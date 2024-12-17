@@ -15,5 +15,7 @@ namespace DND5eAPI.Data.SeedData
             BaseArmorClass = 10,
             ArmorTypeId = 1
         };
+
+        public static Armor[] Armors = [WizardsRobes];
     }
 }

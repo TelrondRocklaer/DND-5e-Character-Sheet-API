@@ -20,5 +20,7 @@ namespace DND5eAPI.Models
         public ICollection<Background>? Backgrounds { get; set; }
         [JsonIgnore]
         public ICollection<Class>? Classes { get; set; }
+        [JsonIgnore]
+        public ICollection<Equipment>? Equipment { get; set; }
     }
 }

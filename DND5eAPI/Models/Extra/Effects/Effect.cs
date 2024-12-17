@@ -17,5 +17,8 @@ namespace DND5eAPI.Models.Extra.Effects
     [JsonDerivedType(typeof(EsotericEffect), "EsotericEffect")]
     [JsonDerivedType(typeof(ExtraWeaponDamageEffect), "ExtraWeaponDamageEffect")]
     [JsonDerivedType(typeof(SpellCostEffect), "SpellCostEffect")]
-    public abstract class Effect { }
+    public abstract class Effect 
+    { 
+        public Effect() { }
+    }
 }

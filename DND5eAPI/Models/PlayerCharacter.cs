@@ -22,7 +22,7 @@ namespace DND5eAPI.Models
         //
         public int RaceId { get; set; }
         [ForeignKey("RaceId")]
-        public Race Race { get; set; }
+        public Race? Race { get; set; }
 
         public int? SubraceId { get; set; }
         [ForeignKey("SubraceId")]
@@ -30,7 +30,7 @@ namespace DND5eAPI.Models
 
         public int ClassId { get; set; }
         [ForeignKey("ClassId")]
-        public Class Class { get; set; }
+        public Class? Class { get; set; }
 
         public int? SubclassId { get; set; }
         [ForeignKey("SubclassId")]
@@ -38,7 +38,7 @@ namespace DND5eAPI.Models
 
         public int BackgroundId { get; set; }
         [ForeignKey("BackgroundId")]
-        public Background Background { get; set; }
+        public Background? Background { get; set; }
 
         public ICollection<Feat>? Feats { get; set; }
         public ICollection<Equipment>? Inventory { get; set; }

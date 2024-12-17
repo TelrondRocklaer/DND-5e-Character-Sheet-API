@@ -10,7 +10,7 @@ namespace DND5eAPI.Models.Extra
             public int Value { get; set; }
 
             [JsonIgnore]
-            public List<Skill> Skills { get; set; }
+            public List<Skill>? Skills { get; set; }
 
             public Attribute() { }
 
