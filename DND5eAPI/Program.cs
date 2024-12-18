@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DND5eAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DND5eAPI
 {
@@ -26,13 +29,31 @@ namespace DND5eAPI
                     .AllowAnyHeader());
             });
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SecurityKey:Key"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             var app = builder.Build();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
 
             app.MapControllers();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseSwagger();
 

@@ -342,5 +342,6 @@ namespace DND5eAPI.Data
         public DbSet<Deity> Deity { get; set; } = default!;
         public DbSet<Subrace> Subrace { get; set; } = default!;
         public DbSet<Subclass> Subclass { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
     }
 }

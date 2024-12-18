@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using DND5eAPI.Data;
 using DND5eAPI.Models;
+using Microsoft.AspNetCore.Authorization;
+using DND5eAPI.Data.SeedData;
 
 namespace DND5eAPI.Controllers
 {
@@ -17,6 +19,7 @@ namespace DND5eAPI.Controllers
         }
 
         // GET: api/PlayerCharacters/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerCharacter>> GetPlayerCharacter(string id)
         {
@@ -31,6 +34,7 @@ namespace DND5eAPI.Controllers
         }
 
         // POST: api/PlayerCharacters
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<PlayerCharacter>> PostPlayerCharacter(PlayerCharacter playerCharacter)
         {
@@ -54,6 +58,7 @@ namespace DND5eAPI.Controllers
         }
 
         // PUT: api/PlayerCharacters/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlayerCharacter(string id, PlayerCharacter playerCharacter)
         {
@@ -81,6 +86,7 @@ namespace DND5eAPI.Controllers
         }
 
         // DELETE: api/PlayerCharacters/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlayerCharacter(string id)
         {
